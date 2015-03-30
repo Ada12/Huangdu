@@ -75,9 +75,9 @@ public partial class search_search : System.Web.UI.Page
             }
             resCells[0].Text = info.ID;
             resCells[1].Text = info.Week.ToString();
-            resCells[2].Text = info.Chiness.ToString();
-            resCells[3].Text = info.Math.ToString();
-            resCells[4].Text = info.English.ToString();
+            resCells[2].Text = info.Chiness == -1 ? "" : info.Chiness.ToString();
+            resCells[3].Text = info.Math == -1 ? "" : info.Math.ToString();
+            resCells[4].Text = info.English == -1 ? "" : info.English.ToString();
             tbr.Cells.AddRange(resCells);
             resulttable.Rows.Add(tbr);
         }
@@ -110,6 +110,11 @@ public partial class search_search : System.Web.UI.Page
             gradesSingleRow[2]=searchResult[iweek].English;
             for(isubjects=0;isubjects<3;isubjects++)
             {
+                if (gradesSingleRow[isubjects] == -1)
+                {
+                    continue;
+                }
+
                 DataRow dtr=GradesDT[isubjects].NewRow();
                 dtr["week"] = searchResult[iweek].Week;
                 dtr["grade"] = gradesSingleRow[isubjects];
