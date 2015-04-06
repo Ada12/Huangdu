@@ -16,11 +16,12 @@ namespace BLL
             return si;
         }
 
-        public void SetStudentInfo(StudentInfo si)
+        public int SetStudentInfo(StudentInfo si)
         {
             //SetContentInfo(ci);
             HDStudent hs = new HDStudent();
-            hs.SetStudentInfo(si);
+            int result = hs.SetStudentInfo(si);
+            return result;
         }
     }
 }

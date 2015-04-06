@@ -20,12 +20,14 @@ public partial class Account_StudentRegister : System.Web.UI.Page
     {
         string studentID_rg = studentID_TB.Text;
         string name_rg = name_TB.Text;
-        int class_rg = int.Parse(class_TB.Text);
-        int grade_rg = int.Parse(grade_TB.Text);
+        string class_rg = class_TB.Text;
 
         Student c = new Student();
-        StudentInfo ci = new StudentInfo(studentID_rg, name_rg, class_rg, grade_rg);
-        c.SetStudentInfo(ci);
+        StudentInfo ci = new StudentInfo(studentID_rg, name_rg, class_rg);
+        int result = c.SetStudentInfo(ci);
+        if (result == 0) {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
+        }
         System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
     }
 }

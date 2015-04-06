@@ -9,17 +9,15 @@ namespace Model
     {
         private string _ID;
         private string _Name;
-        private int _Class;
-        private int _Grade;
+        private string  _Class;
 
         public StudentInfo() { }
 
-        public StudentInfo(string my_id, string my_name, int my_class, int my_grade)
+        public StudentInfo(string my_id, string my_name, string my_class)
         {
             this._ID = my_id;
             this._Name = my_name;
             this._Class = my_class;
-            this._Grade = my_grade;
         }
 
         public string ID
@@ -33,16 +31,9 @@ namespace Model
             get { return _Name; }
         }
 
-        public int Class
+        public string Class
         {
             get { return _Class; }
         }
-
-        public int Grade
-        {
-            get { return _Grade; }
-        }
-
-
     }
 }

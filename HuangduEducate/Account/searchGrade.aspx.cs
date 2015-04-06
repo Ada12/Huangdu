@@ -61,9 +61,9 @@ public partial class search_search : System.Web.UI.Page
         searchResult = grade.GetGradeInfoList(studentID);
         foreach (GradeInfo info in searchResult)
         {
-            if (info.Chiness == -1 &&
-                info.Math == -1 &&
-                info.English == -1)
+            if (info.Chinese == null  &&
+                info.Math == null &&
+                info.English == null )
             {
                 continue;
             }
@@ -75,9 +75,9 @@ public partial class search_search : System.Web.UI.Page
             }
             resCells[0].Text = info.ID;
             resCells[1].Text = info.Week.ToString();
-            resCells[2].Text = info.Chiness == -1 ? "" : info.Chiness.ToString();
-            resCells[3].Text = info.Math == -1 ? "" : info.Math.ToString();
-            resCells[4].Text = info.English == -1 ? "" : info.English.ToString();
+            resCells[2].Text = info.Chinese == null ? "" : info.Chinese.ToString();
+            resCells[3].Text = info.Math == null? "" : info.Math.ToString();
+            resCells[4].Text = info.English == null ? "" : info.English.ToString();
             tbr.Cells.AddRange(resCells);
             resulttable.Rows.Add(tbr);
         }
@@ -98,19 +98,19 @@ public partial class search_search : System.Web.UI.Page
         //this.searchResult.Sort
         for (int iweek = 0; iweek < this.searchResult.Count; ++iweek)
         {
-            if (searchResult[iweek].Chiness == -1 &&
-                searchResult[iweek].Math == -1 &&
-                searchResult[iweek].English == -1)
+            if (searchResult[iweek].Chinese == null &&
+                searchResult[iweek].Math == null &&
+                searchResult[iweek].English == null)
             {
                 continue;
             }
-            int[] gradesSingleRow=new int[3];
-            gradesSingleRow[0]=searchResult[iweek].Chiness;
+            String [] gradesSingleRow=new String[3];
+            gradesSingleRow[0]=searchResult[iweek].Chinese;
             gradesSingleRow[1]=searchResult[iweek].Math;
             gradesSingleRow[2]=searchResult[iweek].English;
             for(isubjects=0;isubjects<3;isubjects++)
             {
-                if (gradesSingleRow[isubjects] == -1)
+                if (gradesSingleRow[isubjects] == null )
                 {
                     continue;
                 }

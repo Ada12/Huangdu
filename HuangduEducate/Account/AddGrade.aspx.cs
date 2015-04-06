@@ -12,29 +12,29 @@ public partial class Account_AddGrade : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string teacherID = "";
+        string classID = "";
         try
         {
-            teacherID = Session["HDTeacherID"].ToString();
+            classID = Session["HDClassID"].ToString();
         }
         catch (Exception excep)
         {
             excep.ToString();
-            Server.Transfer("TeacherLogin.aspx");
+            Server.Transfer("ClassLogin.aspx");
         }
-        if(teacherID != "")
+        if(classID != "")
         {
-            Teacher t = new Teacher();
-            TeacherInfo ti = new TeacherInfo();
-            ti = t.GetTeacherInfo(teacherID);
-            teacherID_LB.Text = ti.ID;
-            teacherName_LB.Text = ti.Name;
+            Class c = new Class();
+            ClassInfo ci = new ClassInfo();
+            ci = c.GetClassInfo(classID);
+            class_LB.Text = ci.Class.ToString();
+            grade_LB.Text = ci.Grade.ToString();
         }
     }
 
     protected void logoffBtn_Click(object sender, EventArgs e)
     {
-        Session["HDTeacherID"] = null;
+        Session["HDClassID"] = null;
         ClearClientPageCache();
         Response.Redirect("main.aspx");
     }
@@ -61,30 +61,51 @@ public partial class Account_AddGrade : System.Web.UI.Page
             string studentID = studentID_TB.Text;
             int week = int.Parse(weekNum_TB.Text);
             string subject = subject_DD.SelectedValue;
-            int grade = int.Parse(grade_TB.Text);
+            string grade = grade_TB.Text;
             int category;
             Grade g = new Grade();
 
             if (subject == "语文")
             {
-                GradeInfo gi = new GradeInfo(studentID, week, grade, -1, -1);
+                GradeInfo gi = new GradeInfo(studentID, week, grade, null, null);
                 category = 1;
-                g.UpdateInfo(gi, category);
-                System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                int r = g.UpdateInfo(gi, category);
+                if (r != 0)
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                }
+                else 
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
+                }
             }
             else if (subject == "数学")
             {
-                GradeInfo gi = new GradeInfo(studentID, week, -1, grade, -1);
+                GradeInfo gi = new GradeInfo(studentID, week, null, grade, null);
                 category = 2;
-                g.UpdateInfo(gi, category);
-                System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                int r = g.UpdateInfo(gi, category);
+                if (r != 0)
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                }
+                else
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
+                }
             }
             else
             {
-                GradeInfo gi = new GradeInfo(studentID, week, -1, -1, grade);
+                GradeInfo gi = new GradeInfo(studentID, week, null, null, grade);
                 category = 3;
-                g.UpdateInfo(gi, category);
-                System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                int r = g.UpdateInfo(gi, category);
+                if (r != 0)
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
+                }
+                else
+                {
+                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
+                }
             }
         }
 

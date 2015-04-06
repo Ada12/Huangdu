@@ -25,7 +25,7 @@ namespace AccessDAL
         private const string SQL_UPDATE_MATH = "UPDATE grade SET math = @math WHERE ID = @ID and week = @week ";
         private const string SQL_UPDATE_ENGLISH = "UPDATE grade SET english = @english WHERE ID = @ID and week = @week ";
 
-        public static void InsertData(string sql, OleDbParameter[] cmdParms)
+        public static int InsertData(string sql, OleDbParameter[] cmdParms)
         {
             DBConnection dbconn = new DBConnection();
             OleDbConnection connection = dbconn.getConnection();
@@ -38,17 +38,15 @@ namespace AccessDAL
                     oleCmd.Parameters.Add(parm);
                 }
             }
-            oleCmd.ExecuteNonQuery();
+            int result = oleCmd.ExecuteNonQuery();
             if(connection != null)
             {
                 connection.Close();
             }
+            return result;
         }
 
-        public static OleDbDataReader GetData(string sql, OleDbParameter cmdParm) {
-            DBConnection dbconn = new DBConnection();
-            OleDbConnection connection = dbconn.getConnection();
-            connection.Open();
+        public static OleDbDataReader GetData(OleDbConnection connection, string sql, OleDbParameter cmdParm) {
             OleDbCommand oleCmd = new OleDbCommand(sql, connection);
             oleCmd.Parameters.Add(cmdParm);
             
@@ -58,41 +56,52 @@ namespace AccessDAL
 
         public List<GradeInfo> GetGradeInfoList(string id)
         {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
 
             List<GradeInfo> gi = new List<GradeInfo>();
             OleDbParameter gradeInfo = new OleDbParameter(PARM_ID, OleDbType.VarChar);
             gradeInfo.Value = id;
-            OleDbDataReader odr = GetData(SQL_SELECT_CONTENT, gradeInfo);
+            OleDbDataReader odr = GetData(connection, SQL_SELECT_CONTENT, gradeInfo);
             while (odr.Read())
             {
-                gi.Add(new GradeInfo(odr.GetString(0), odr.GetInt32(1), odr.GetInt32(2), odr.GetInt32(3), odr.GetInt32(4)));
+                gi.Add(new GradeInfo(odr.GetString(0), odr.GetInt32(1), odr.GetString(2), odr.GetString(3), odr.GetString(4)));
             }
+            if (connection != null)
+            {
+                connection.Close();
+            }
+
             return gi;
         }
 
-        public void SetGradeInfo(GradeInfo gi)
+        public int SetGradeInfo(GradeInfo gi)
         {
             OleDbParameter[] gradeInfo = new OleDbParameter[] { new OleDbParameter(PARM_ID,OleDbType.VarChar),new OleDbParameter(PARM_WEEK, OleDbType.Integer),
-                new OleDbParameter(PARM_CHINESE, OleDbType.Integer),new OleDbParameter(PARM_MATH, OleDbType.Integer),new OleDbParameter(PARM_ENGLISH, OleDbType.Integer)};
+                new OleDbParameter(PARM_CHINESE, OleDbType.VarChar),new OleDbParameter(PARM_MATH, OleDbType.VarChar),new OleDbParameter(PARM_ENGLISH, OleDbType.VarChar)};
             gradeInfo[0].Value = gi.ID;
             gradeInfo[1].Value = gi.Week;
-            gradeInfo[2].Value = gi.Chiness;
+            gradeInfo[2].Value = gi.Chinese;
             gradeInfo[3].Value = gi.Math;
             gradeInfo[4].Value = gi.English;
-            InsertData(SQL_INSERT_CONTENT, gradeInfo);
+            int result = InsertData(SQL_INSERT_CONTENT, gradeInfo);
+            return result;
         }
 
 
-        public void UpdateInfo(GradeInfo gi, int c)
+        public int UpdateInfo(GradeInfo gi, int c)
         {
+            int result;
             if (c == 1)
             {
                 OleDbParameter[] gradeInfo = new OleDbParameter[] { new OleDbParameter(PARM_CHINESE, OleDbType.Integer), new OleDbParameter(PARM_ID,OleDbType.VarChar),
                 new OleDbParameter(PARM_WEEK, OleDbType.Integer)};
-                gradeInfo[0].Value = gi.Chiness;
+                gradeInfo[0].Value = gi.Chinese;
                 gradeInfo[1].Value = gi.ID;
                 gradeInfo[2].Value = gi.Week;
-                InsertData(SQL_UPDATE_CHINSES, gradeInfo);
+                result = InsertData(SQL_UPDATE_CHINSES, gradeInfo);
+                return result;
             }
             else if(c == 2)
             {
@@ -101,7 +110,8 @@ namespace AccessDAL
                 gradeInfo[0].Value = gi.Math;
                 gradeInfo[1].Value = gi.ID;
                 gradeInfo[2].Value = gi.Week;
-                InsertData(SQL_UPDATE_MATH, gradeInfo);
+                result = InsertData(SQL_UPDATE_MATH, gradeInfo);
+                return result;
             }
             else
             {
@@ -110,7 +120,8 @@ namespace AccessDAL
                 gradeInfo[0].Value = gi.English;
                 gradeInfo[1].Value = gi.ID;
                 gradeInfo[2].Value = gi.Week;
-                InsertData(SQL_UPDATE_ENGLISH, gradeInfo);
+                result = InsertData(SQL_UPDATE_ENGLISH, gradeInfo);
+                return result;
             }
         }
     }

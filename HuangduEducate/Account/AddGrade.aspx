@@ -13,9 +13,9 @@
 <body>
     <form id="form1" class="login-form" runat="server">
     <div class="teacher-info-container">
-    工号： <asp:Label ID="teacherID_LB" runat="server" />
+    班级： <asp:Label ID="class_LB" runat="server" />
     <br />
-    欢迎您，<asp:Label ID="teacherName_LB" runat="server" />老师！
+    年级：<asp:Label ID="grade_LB" runat="server" />
     </div>
     <br />
     <br />
@@ -25,6 +25,7 @@
     <div class="form-container">
          <asp:TextBox ID="studentID_TB" CssClass="input-studentid" placeholder="学号" runat="server"></asp:TextBox>
          <asp:TextBox ID="weekNum_TB" CssClass="input-weeknum" placeholder="周" runat="server"></asp:TextBox><br />
+         </div>
         <div class="select_style">
         <asp:DropDownList ID="subject_DD" runat="server">
             <asp:ListItem>语文</asp:ListItem>

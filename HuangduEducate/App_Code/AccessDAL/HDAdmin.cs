@@ -18,11 +18,8 @@ namespace AccessDAL
         private const string SQL_SELECT_CONTENT = "select ID, password From admin Where ID = @adminID ";
 
 
-        public static OleDbDataReader GetData(string sql, OleDbParameter cmdParm)
+        public static OleDbDataReader GetData(OleDbConnection connection, string sql, OleDbParameter cmdParm)
         {
-            DBConnection dbconn = new DBConnection();
-            OleDbConnection connection = dbconn.getConnection();
-            connection.Open();
             OleDbCommand oleCmd = new OleDbCommand(sql, connection);
 
             oleCmd.Parameters.Add(cmdParm);
@@ -33,15 +30,24 @@ namespace AccessDAL
 
         public AdminInfo GetAdminInfo(string id)
         {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+
             AdminInfo ti = null;
             OleDbParameter adminInfo = new OleDbParameter(PARM_ID, OleDbType.VarChar);
             adminInfo.Value = id;
-            using (OleDbDataReader odr = GetData(SQL_SELECT_CONTENT, adminInfo))
+            using (OleDbDataReader odr = GetData(connection, SQL_SELECT_CONTENT, adminInfo))
             {
                 if (odr.Read())
                 {
                     ti = new AdminInfo(odr.GetString(0), odr.GetString(1));
                 }
+            }
+
+            if (connection != null)
+            {
+                connection.Close();
             }
             return ti;
         }

@@ -19,6 +19,6 @@ public partial class Account_main : System.Web.UI.Page
 
     protected void teacherBtn_Click(object sender, EventArgs e)
     {
-        Server.Transfer("TeacherLogin.aspx");
+        Server.Transfer("ClassLogin.aspx");
     }
 }

@@ -17,17 +17,19 @@ namespace BLL
             return ci;
         }
 
-        public void SetStudentInfo(GradeInfo ci)
+        public int SetStudentInfo(GradeInfo ci)
         {
             //SetContentInfo(ci);
             HDGrade mc = new HDGrade();
-            mc.SetGradeInfo(ci);
+            int result = mc.SetGradeInfo(ci);
+            return result;
         }
 
-        public void UpdateInfo(GradeInfo gi, int c)
+        public int UpdateInfo(GradeInfo gi, int c)
         {
             HDGrade hg = new HDGrade();
-            hg.UpdateInfo(gi,c);
+            int result = hg.UpdateInfo(gi,c);
+            return result;
         }
     }
 }

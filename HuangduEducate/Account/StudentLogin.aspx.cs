@@ -31,8 +31,7 @@ public partial class Account_StudentLogin : System.Web.UI.Page
         {
             errorMessage.Text = "学号或姓名错误";
         }
-        else
-        if (si.Name == name_lg)
+        else if (si.Name == name_lg)
         {
             Session["huangdueducateid"] = si.ID;
             Session["huangdueducatename"] = si.Name;

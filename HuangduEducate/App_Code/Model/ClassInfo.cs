@@ -4,25 +4,27 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-///TeacherInfo 的摘要说明
+///Class 的摘要说明
 /// </summary>
-
 namespace Model
 {
-    public class TeacherInfo
+    public class ClassInfo
     {
         private string _ID;
-        private string _Name;
         private string _Password;
+        private int _Grade;
+        private int _Class;
 
-        public TeacherInfo()
+        public ClassInfo()
         {
+
         }
 
-        public TeacherInfo(string my_id, string my_name, string my_password)
+        public ClassInfo(String my_id, int my_grade, int my_class, string my_password)
         {
             this._ID = my_id;
-            this._Name = my_name;
+            this._Grade = my_grade;
+            this._Class = my_class;
             this._Password = my_password;
         }
 
@@ -31,9 +33,14 @@ namespace Model
             get { return _ID; }
         }
 
-        public string Name
+        public int Grade
         {
-            get { return _Name; }
+            get { return _Grade; }
+        }
+
+        public int Class
+        {
+            get { return _Class; }
         }
 
         public string Password

@@ -7,46 +7,48 @@ namespace Model
 {
     public class GradeInfo
     {
-
         private string _ID;
+        private int _Week;
+        private string _Chinese;
+        private string _Math;
+        private string _English;
+
+        public GradeInfo()
+        { 
+        }
+
+        public GradeInfo(string my_id, int my_week, string my_chinese, string my_math, string my_english) 
+        {
+            this._ID = my_id;
+            this._Week = my_week;
+            this._Chinese = my_chinese;
+            this._Math = my_math;
+            this._English = my_english;
+        }
 
         public string ID
         {
-            get { return _ID; }
+            get { return this._ID; }
         }
-        private int _Week;
 
         public int Week
         {
-            get { return _Week; }
-        }
-        private int _Chinese;
-
-        public int Chiness
-        {
-            get { return _Chinese; }
-        }
-        private int _Math;
-
-        public int Math
-        {
-            get { return _Math; }
-        }
-        private int _English;
-
-        public int English
-        {
-            get { return _English; }
+            get { return this._Week; }
         }
 
-        public GradeInfo(string id,int week,int chinese,int math,int english)
+        public string Chinese
         {
-            this._ID = id;
-            this._Week = week;
-            this._Chinese = chinese;
-            this._Math = math;
-            this._English = english;
+            get { return this._Chinese; }
         }
-        
+
+        public string Math
+        {
+            get { return this._Math; }
+        }
+
+        public string English
+        {
+            get { return this._English; }
+        }
     }
 }
