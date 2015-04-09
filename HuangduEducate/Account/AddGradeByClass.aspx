@@ -13,9 +13,9 @@
 <body>
     <form id="form1" class="login-form" runat="server">
     <div class="teacher-info-container">
-    工号： <asp:Label ID="teacherID_LB" runat="server" />
+    班级： <asp:Label ID="class_LB" runat="server" />
     <br />
-    欢迎您，<asp:Label ID="teacherName_LB" runat="server" />老师！
+    年级：<asp:Label ID="grade_LB" runat="server" />
     </div>
     <br />
     <br />
@@ -27,6 +27,7 @@
             <asp:ListItem>语文</asp:ListItem>
             <asp:ListItem>数学</asp:ListItem>
             <asp:ListItem>英语</asp:ListItem> 
+             </asp:DropDownList>
         <asp:TextBox ID="weekNum_TB" CssClass="input-weeknum" placeholder="周" runat="server"></asp:TextBox><br />
         <div class="select_style">
         <asp:DropDownList ID="ClassGrade" runat="server">
@@ -37,13 +38,13 @@
             <asp:ListItem>五年级</asp:ListItem>
             <asp:ListItem>六年级</asp:ListItem>
          </asp:DropDownList>
+        </div>
         
-         </asp:DropDownList>
          <asp:TextBox ID="grade_TB" placeholder="分数" CssClass="input-score" runat="server"></asp:TextBox>
          </div>
          <br />
          <asp:Button ID="submitBtn" CssClass="button button-rounded button-flat-primary input-submit" runat="server"  Text="提交" OnClick="submitBtn_Click"/>  <br />
-        </div>
+        
     </form>
     
     <div id="qys-add">

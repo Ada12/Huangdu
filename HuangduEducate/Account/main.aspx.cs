@@ -21,4 +21,9 @@ public partial class Account_main : System.Web.UI.Page
     {
         Server.Transfer("ClassLogin.aspx");
     }
+
+    protected void adminBtn_Click(object sender, EventArgs e) 
+    {
+        Server.Transfer("AdminLogin.aspx");
+    }
 }
