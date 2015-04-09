@@ -10,8 +10,12 @@ using BLL;
 
 public partial class Account_AddGrade : System.Web.UI.Page
 {
+
+    private List<LevelStructureInfo> levelstructureInfoList; 
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        levelstructureInfoList = new List<LevelStructureInfo>();
         string classID = "";
         try
         {
@@ -24,11 +28,62 @@ public partial class Account_AddGrade : System.Web.UI.Page
         }
         if(classID != "")
         {
-            Class c = new Class();
-            ClassInfo ci = new ClassInfo();
-            ci = c.GetClassInfo(classID);
-            class_LB.Text = ci.Class.ToString();
-            grade_LB.Text = ci.Grade.ToString();
+            Student hdstd = new Student();
+            LevelStructure lvstr=new LevelStructure();
+            List<StudentInfo> stdlist = hdstd.getStudentList(classID);
+            this.levelstructureInfoList = lvstr.getLevelStructurreInfoSimple();
+            string previousStr = "";
+            TableHeaderCell tbc00 = new TableHeaderCell();
+            foreach (LevelStructureInfo lvstri in this.levelstructureInfoList)
+            {
+                if (previousStr == lvstri.Iterm)
+                {
+                    tbc00.ColumnSpan += 1;
+                }
+                else
+                {
+                    TableHeaderCell tbc01 = new TableHeaderCell();
+                    tbc00 = tbc01;
+                    tbc00.ColumnSpan = 1;
+                    tbc01.Text = lvstri.Iterm;
+                    previousStr = tbc01.Text;
+                    classHeaderRow1.Cells.Add(tbc01);
+                }
+
+
+                TableHeaderCell tbc02 = new TableHeaderCell();
+                tbc02.Text = lvstri.Subiterm;
+                classHeaderRow2.Cells.Add(tbc02);
+            }
+
+            int itemNum = levelstructureInfoList.Count;
+            foreach (StudentInfo stdif in stdlist)
+            {
+                TableRow tbr = new TableRow();
+                TableCell tbc1 = new TableCell();
+                TableCell tbc2 = new TableCell();
+                tbc1.Text = stdif.ID;
+                tbc2.Text = stdif.Name;
+                tbr.Cells.Add(tbc1);
+                tbr.Cells.Add(tbc2);
+
+                for (int icounter = 0; icounter < itemNum; icounter++)
+                {
+                    TableCell tbc3n = new TableCell();
+                    DropDownList ddl=new DropDownList();
+                    ddl.Items.Add(new ListItem("1","1"));
+                    ddl.Items.Add(new ListItem("2","2"));
+                    ddl.Items.Add(new ListItem("3","3"));
+                    ddl.Items.Add(new ListItem("4","4"));
+                    ddl.Items.Add(new ListItem("5","5"));
+                    tbc3n.Controls.Add(ddl);
+                    tbr.Cells.Add(tbc3n);
+                }
+                
+                classListTable.Rows.Add(tbr);
+                
+            }
+
         }
     }
 
@@ -51,64 +106,6 @@ public partial class Account_AddGrade : System.Web.UI.Page
 
     protected void submitBtn_Click(object sender, EventArgs e)
     {
-        if (studentID_TB.Text == "" || weekNum_TB.Text == null || subject_DD.SelectedValue == "" || grade_TB.Text == null)
-        {
-            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('输入项不能为空！');</script>");
-            return;
-        }
-        else
-        {
-            string studentID = studentID_TB.Text;
-            int week = int.Parse(weekNum_TB.Text);
-            string subject = subject_DD.SelectedValue;
-            string grade = grade_TB.Text;
-            int category;
-            Grade g = new Grade();
-
-            if (subject == "语文")
-            {
-                GradeInfo gi = new GradeInfo(studentID, week, grade, null, null);
-                category = 1;
-                int r = g.UpdateInfo(gi, category);
-                if (r != 0)
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
-                }
-                else 
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
-                }
-            }
-            else if (subject == "数学")
-            {
-                GradeInfo gi = new GradeInfo(studentID, week, null, grade, null);
-                category = 2;
-                int r = g.UpdateInfo(gi, category);
-                if (r != 0)
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
-                }
-                else
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
-                }
-            }
-            else
-            {
-                GradeInfo gi = new GradeInfo(studentID, week, null, null, grade);
-                category = 3;
-                int r = g.UpdateInfo(gi, category);
-                if (r != 0)
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入成功！');</script>");
-                }
-                else
-                {
-                    System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('录入失败！');</script>");
-                }
-            }
-        }
-
-
+        
     }
 }

@@ -20,13 +20,17 @@ public partial class Account_ClassLogin : System.Web.UI.Page
         string password = password_TB.Text;
 
         Class c = new Class();
-        ClassInfo ci = new ClassInfo();
+        ClassInfo ci = c.GetClassInfo(classID);
+        if (ci == null)
+        {
+            errorMessage.Text = "班级不存在";
+            return;
+        }
 
-        ci = c.GetClassInfo(classID);
 
         if (password == ci.Password)
         {
-            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('登录成功！');</script>");
+            //System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('登录成功！');</script>");
             Session["HDClassID"] = ci.ID;
             Server.Transfer("AddGrade.aspx");
             errorMessage.Text = "";

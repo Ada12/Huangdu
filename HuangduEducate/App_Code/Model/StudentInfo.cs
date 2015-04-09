@@ -9,7 +9,7 @@ namespace Model
     {
         private string _ID;
         private string _Name;
-        private string  _Class;
+        private string _Class_Num;
 
         public StudentInfo() { }
 
@@ -17,13 +17,13 @@ namespace Model
         {
             this._ID = my_id;
             this._Name = my_name;
-            this._Class = my_class;
+            this._Class_Num = my_class;
         }
 
         public string ID
         {
             get { return _ID; }
-           
+
         }
 
         public string Name
@@ -31,9 +31,9 @@ namespace Model
             get { return _Name; }
         }
 
-        public string Class
+        public string ClassNum
         {
-            get { return _Class; }
+            get { return _Class_Num; }
         }
     }
 }

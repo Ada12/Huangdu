@@ -1,7 +1,7 @@
 ﻿using System; 
 using Model;
 using AccessDAL;
-
+using System.Collections.Generic;
 /// <summary>
 ///Content 的摘要说明
 /// </summary>
@@ -16,12 +16,26 @@ namespace BLL
             return si;
         }
 
+        public List<StudentInfo> getStudentList(string classNum)
+        {
+            HDStudent hs = new HDStudent();
+            List<StudentInfo> stdlst = hs.GetStudentInfoList(classNum);
+            stdlst.Sort(this.studentCompare);
+            return stdlst;
+        }
+
         public int SetStudentInfo(StudentInfo si)
         {
             //SetContentInfo(ci);
             HDStudent hs = new HDStudent();
-            int result = hs.SetStudentInfo(si);
+            int result = hs.addStudent(si);
             return result;
         }
+        public int studentCompare(StudentInfo x, StudentInfo y)
+        {
+            return QYDCompare.stringCompare(x.ID, y.ID);
+        }
+
     }
+
 }

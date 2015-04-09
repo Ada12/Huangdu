@@ -12,31 +12,16 @@
 </head>
 <body>
     <form id="form1" class="login-form" runat="server">
-    <div class="teacher-info-container">
-    班级： <asp:Label ID="class_LB" runat="server" />
-    <br />
-    年级：<asp:Label ID="grade_LB" runat="server" />
-    </div>
-    <br />
-    <br />
-    <br />
-    <asp:Button ID="Button1" CssClass="button button-rounded button-flat-primary login-btn btn-position" Text="登出" runat="server"
-         onclick="logoffBtn_Click" />
-    <div class="form-container">
-         <asp:TextBox ID="studentID_TB" CssClass="input-studentid" placeholder="学号" runat="server"></asp:TextBox>
-         <asp:TextBox ID="weekNum_TB" CssClass="input-weeknum" placeholder="周" runat="server"></asp:TextBox><br />
-         </div>
-        <div class="select_style">
-        <asp:DropDownList ID="subject_DD" runat="server">
-            <asp:ListItem>语文</asp:ListItem>
-            <asp:ListItem>数学</asp:ListItem>
-            <asp:ListItem>英语</asp:ListItem>
-         </asp:DropDownList>
-         <asp:TextBox ID="grade_TB" placeholder="分数" CssClass="input-score" runat="server"></asp:TextBox>
-         </div>
-         <br />
-         <asp:Button ID="submitBtn" CssClass="button button-rounded button-flat-primary input-submit" runat="server"  Text="提交" OnClick="submitBtn_Click"/>  <br />
+        <asp:Table ID="classListTable" runat="server">
+            <asp:TableHeaderRow ID="classHeaderRow1" runat="server">
+                <asp:TableHeaderCell RowSpan="2">学号</asp:TableHeaderCell>
+                <asp:TableHeaderCell RowSpan="2">姓名</asp:TableHeaderCell>
+                
+            </asp:TableHeaderRow>
+            <asp:TableRow ID="classHeaderRow2" runat="server">
+                 
+            </asp:TableRow>
+        </asp:Table>
     </form>
-    </div>
 </body>
 </html>
