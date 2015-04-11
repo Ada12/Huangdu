@@ -59,4 +59,22 @@ public class LevelStructure
             return QYDCompare.stringCompare(lvix.Subiterm, lviy.Subiterm);
         }
     }
+
+    static public int maxPosition(List<LevelStructureInfo> lvs)
+    {
+        if (lvs == null)
+        {
+            return -2;
+        }
+        if (lvs.Count == 0)
+        {
+            return -1;
+        }
+        int maxp = int.MinValue;
+        foreach (LevelStructureInfo lvi in lvs)
+        {
+            maxp = Math.Max(lvi.Position, maxp);
+        }
+        return maxp;
+    }
 }

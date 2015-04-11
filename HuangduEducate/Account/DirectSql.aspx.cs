@@ -65,20 +65,24 @@ public partial class Account_DirectSql : System.Web.UI.Page
     protected void runPG(object sender, EventArgs e)
     {
         table2.Rows.Clear();
-        HDStudent hdstd = new HDStudent();
-        List<StudentInfo> stdlist = hdstd.GetStudentInfoList("065");
-        foreach (StudentInfo stdif in stdlist)
+        HDGrade hg = new HDGrade();
+        List<string> lststr = new List<string>();
+        lststr.Add("200635001");
+        lststr.Add("200635010");
+        lststr.Add("200735010");
+        List<GradeInfo> lg = hg.GetGradeInfo(lststr,2);
+        foreach (GradeInfo gi in lg)
         {
-            TableRow tbr = new TableRow();
+            TableRow tbr=new TableRow();
             TableCell tbc1 = new TableCell();
             TableCell tbc2 = new TableCell();
             TableCell tbc3 = new TableCell();
-            tbc1.Text = stdif.ID;
-            tbc2.Text = stdif.Name;
-            tbc3.Text = stdif.ClassNum;
-            tbr.Cells.Add(tbc1);
-            tbr.Cells.Add(tbc2);
-            tbr.Cells.Add(tbc3);
+            TableCell tbc4 = new TableCell();
+            tbc1.Text = gi.ID;
+            tbc2.Text = gi.Chinese;
+            tbc3.Text = gi.Math;
+            tbc4.Text = gi.English;
+            tbr.Cells.AddRange(new TableCell[] { tbc1, tbc2, tbc3, tbc4});
             table2.Rows.Add(tbr);
         }
     }

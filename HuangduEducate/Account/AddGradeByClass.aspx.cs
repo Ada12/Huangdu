@@ -19,15 +19,15 @@ public partial class Account_AddGradeByClass : System.Web.UI.Page
         catch (Exception excep)
         {
             excep.ToString();
-            Server.Transfer("ClassLogin.aspx");
+            Server.Transfer("TeacherLogin.aspx");
         }
         if (teacherID != "")
         {
-            Class c = new Class();
-            ClassInfo ci = new ClassInfo();
-            ci = c.GetClassInfo(teacherID);
-            class_LB.Text = ci.Class.ToString();
-            grade_LB.Text = ci.Grade.ToString();
+            Teacher t = new Teacher();
+            TeacherInfo ti = new TeacherInfo();
+            ti = t.GetTeacherInfo(teacherID);
+            teacherID_LB.Text = ti.ID;
+            teacherName_LB.Text = ti.Name;
         }
     }
 

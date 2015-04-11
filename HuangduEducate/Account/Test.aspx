@@ -23,10 +23,20 @@
         <asp:TextBox ID="threeTextBox" runat="server"></asp:TextBox>
         <asp:TextBox ID="twoTextBox" runat="server"></asp:TextBox>
         <asp:TextBox ID="oneTextBox" runat="server"></asp:TextBox>
-        <asp:Button ID="submitButton" runat="server"  Text="Add Level" OnClick="addLevelStructure"/>
+        <asp:Button ID="submitButton" runat="server"  Text="Add Level" OnClick="sss"/>
     </div>
     <div>
         <asp:Label ID="toshow" runat="server"></asp:Label>
+    </div>
+    <div>
+    <asp:DropDownList ID="ddlSubject" runat="server" OnSelectedIndexChanged="onSubjectChanged" AutoPostBack="true">
+            <asp:ListItem>请选择</asp:ListItem>
+            <asp:ListItem>语文</asp:ListItem>
+            <asp:ListItem>数学</asp:ListItem>
+            <asp:ListItem>英语</asp:ListItem>
+            
+        </asp:DropDownList>
+        <asp:Label runat="server" ID="ddlTextShow">ffff</asp:Label>
     </div>
     </form>
 </body>

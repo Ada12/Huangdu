@@ -11,17 +11,33 @@
 
 </head>
 <body>
-    <form id="form1" class="login-form" runat="server">
-        <asp:Table ID="classListTable" runat="server">
-            <asp:TableHeaderRow ID="classHeaderRow1" runat="server">
-                <asp:TableHeaderCell RowSpan="2">学号</asp:TableHeaderCell>
-                <asp:TableHeaderCell RowSpan="2">姓名</asp:TableHeaderCell>
-                
-            </asp:TableHeaderRow>
-            <asp:TableRow ID="classHeaderRow2" runat="server">
-                 
-            </asp:TableRow>
-        </asp:Table>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <asp:UpdatePanel ID="updtpnl" runat="server">
+            <ContentTemplate>
+                <fieldset>
+                    <asp:DropDownList ID="ddlWeek" runat="server" OnSelectedIndexChanged="onWeekChanged" AutoPostBack="true">
+                        <asp:ListItem Value="none">请选择</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:DropDownList ID="ddlSubject" runat="server" OnSelectedIndexChanged="onSubjectChanged" AutoPostBack="true">
+                        <asp:ListItem Value="none">请选择</asp:ListItem>
+                        <asp:ListItem Value="chinese">语文</asp:ListItem>
+                        <asp:ListItem Value="math">数学</asp:ListItem>
+                        <asp:ListItem Value="english">英语</asp:ListItem>
+                    </asp:DropDownList>
+        
+                    <asp:Table ID="classListTable" runat="server" >
+                        <asp:TableHeaderRow ID="classHeaderRow1" runat="server"></asp:TableHeaderRow>
+                        <asp:TableRow ID="classHeaderRow2" runat="server"></asp:TableRow>
+                    </asp:Table>
+                    <br />
+                    <br />
+                    
+                </fieldset>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:Button ID="saveButton" runat="server" Text="保存" OnClick="onSaveButtonClick" />
     </form>
 </body>
 </html>
