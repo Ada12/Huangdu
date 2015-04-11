@@ -26,5 +26,13 @@ namespace BLL
             int result = hc.SetCLassInfo(ci);
             return result;
         }
+
+        public int UpdataGrade()
+        {
+            int result;
+            HDClass hc = new HDClass();
+            result = hc.UpdateGrade();
+            return result;
+        }
     }
 }

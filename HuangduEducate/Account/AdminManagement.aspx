@@ -16,7 +16,9 @@
                 <hr />
                 学号：<asp:TextBox ID="studentID_TB" runat="server"></asp:TextBox>
                 <br />
+                <br />
                 姓名：<asp:TextBox ID="name_TB" runat="server"></asp:TextBox>
+                <br />
                 <br />
                 班级：
                 <asp:DropDownList ID="class_DD" runat="server">
@@ -29,6 +31,7 @@
                     <asp:ListItem>7</asp:ListItem>
                     <asp:ListItem>8</asp:ListItem>
                 </asp:DropDownList>
+                <br />
                 <br />
                 入学年份：
                 <asp:DropDownList ID="entertime_DD" runat="server">
@@ -50,26 +53,38 @@
                     <asp:ListItem>2030</asp:ListItem>
                 </asp:DropDownList>
                 <br />
+                <br />
                 <asp:Button ID="Button1" runat="server" Text="提交" OnClick="addStudent_Click" />
             </div>
             <br />
             <br />
             <div>
-               <asp:Label Text="修改密码" ID="changePassword" runat="server" />
+                <asp:Label Text="添加班级" ID="addClass" runat="server"/>
                 <hr />
-                年级：
-                <asp:DropDownList ID="changeGrade_DD" runat="server">
-                    <asp:ListItem>1</asp:ListItem>
-                    <asp:ListItem>2</asp:ListItem>
-                    <asp:ListItem>3</asp:ListItem>
-                    <asp:ListItem>4</asp:ListItem>
-                    <asp:ListItem>5</asp:ListItem>
-                    <asp:ListItem>6</asp:ListItem>
+                入学年份：
+                <asp:DropDownList ID="addClassEnterTime_DD" runat="server">
+                    <asp:ListItem>2009</asp:ListItem>
+                    <asp:ListItem>2010</asp:ListItem>
+                    <asp:ListItem>2011</asp:ListItem>
+                    <asp:ListItem>2012</asp:ListItem>
+                    <asp:ListItem>2013</asp:ListItem>
+                    <asp:ListItem>2014</asp:ListItem>
+                    <asp:ListItem>2015</asp:ListItem>
+                    <asp:ListItem>2016</asp:ListItem>
+                    <asp:ListItem>2017</asp:ListItem>
+                    <asp:ListItem>2018</asp:ListItem>
+                    <asp:ListItem>2019</asp:ListItem>
+                    <asp:ListItem>2020</asp:ListItem>
+                    <asp:ListItem>2021</asp:ListItem>
+                    <asp:ListItem>2022</asp:ListItem>
+                    <asp:ListItem>2023</asp:ListItem>
+                    <asp:ListItem>2024</asp:ListItem>
+                    <asp:ListItem>2025</asp:ListItem>
                 </asp:DropDownList>
                 <br />
                 <br />
                 班级：
-                <asp:DropDownList ID="changeClass_DD" runat="server">
+                <asp:DropDownList ID="addClassClass_DD" runat="server">
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
                     <asp:ListItem>3</asp:ListItem>
@@ -78,10 +93,48 @@
                     <asp:ListItem>6</asp:ListItem>
                     <asp:ListItem>7</asp:ListItem>
                     <asp:ListItem>8</asp:ListItem>
+                    <asp:ListItem>9</asp:ListItem>
+                    <asp:ListItem>10</asp:ListItem>
                 </asp:DropDownList>
                 <br />
-                <asp:Label ID="changeErrorMessage" runat="server"></asp:Label>
-                <asp:Button ID="changePasswordBtn" runat="server" Text="修改" OnClick="changePasswordBtn_Click" />
+                <br />
+                <asp:Button ID="addClassBtn" Text="提交" OnClick="addClassBtn_Click" runat="server" />
+                <asp:Label ID="addClassResultMsg" runat="server" />
+            </div>
+            <br />
+            <br />
+            <div>
+               <asp:Label Text="修改班级密码" ID="changePassword" runat="server" />
+                <hr />
+                班级账号：
+                <asp:TextBox ID="changePasswordAccountNum_TB" runat="server" />
+                <br />
+                <br />
+                &nbsp;&nbsp; 原密码：
+                <asp:TextBox ID="oldPassword_TB" runat="server" />
+                <br />
+                <br />
+                &nbsp;&nbsp; 新密码：
+                <asp:TextBox ID="newPassword_TB" runat="server" />
+                <br />
+                <br />
+                确认密码：
+                <asp:TextBox ID="newPasswordConfirm_TB" runat="server" />
+                <br />
+                <br />
+                <asp:Label ID="changeClassErrorMsg" runat="server"></asp:Label>
+                <asp:Button ID="changeClassPasswordBtn" runat="server" Text="修改" OnClick="changeCLassPasswordBtn_Click" />
+            </div>
+            <br />
+            <br />
+            <div>
+               <asp:Label Text="修改管理员密码" ID="Label2" runat="server" />
+                <hr />
+                
+                <br />
+                <br />
+                <asp:Label ID="changeAdminErrorMsg" runat="server"></asp:Label>
+                <asp:Button ID="changeAdminPasswordBtn" runat="server" Text="修改" OnClick="changeAdminPasswordBtn_Click" />
             </div>
             <br />
             <br />
