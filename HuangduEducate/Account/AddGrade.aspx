@@ -8,6 +8,62 @@
     <link rel="Stylesheet" href="css/buttons.css" />
     <link rel="Stylesheet" href="css/input.min.css" />
     <link rel="Stylesheet" href="css/AddGrade.css" />
+    <script src="css/jquery-1.4.2.js" type="text/javascript"></script>  
+    <script type="text/javascript">
+
+        $(function () {
+            $("#test").live("click", function () {
+                var t = document.getElementById("ddl:200635001:0").selectedIndex;
+                var table = document.getElementById("classListTable");
+                var tableRowNum = table.rows.length;
+                var tableColNum = table.rows.item(2).cells.length - 2;
+
+                var studentID = new Array();
+                for (var i = 2; i < tableRowNum; i++) {
+                    var trob = document.getElementById(i);
+                    studentID.push(trob.innerHTML);
+                }
+                var grade = "";
+                var gradeInfo = new Array();
+                for (var a = 0; a < studentID.length; a++) {
+                    for (var b = 0; b < tableColNum; b++) {
+                        var id = "ddl:" + studentID[a] + ":" + b;
+                        var mygrade = document.getElementById(id).selectedIndex;
+                        grade = grade + mygrade;
+                    }
+                    gradeInfo.push(grade);
+                    grade = "";
+                }
+
+                var studentIDStr = studentID[0];
+                for (var c = 1; c < studentID.length; c++) {
+                    studentIDStr = studentIDStr + "_" + studentID[c];
+                }
+
+                var gradeInfoStr = gradeInfo[0];
+                for (var d = 1; d < gradeInfo.length; d++) {
+                    gradeInfoStr = gradeInfoStr + "_" + gradeInfo[d];
+                }
+
+                var info = {
+                    week: $("#ddlWeek").val(),
+                    subject: $("#ddlSubject").val(),
+                    studentID: studentIDStr,
+                    grade: gradeInfoStr
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'Handler.ashx',
+                    data: info,
+                    success: function (data) {
+                        //alert("haha");
+                        alert(data);
+                    }
+                });
+            });
+        });
+        
+    </script>
 
 </head>
 <body>
@@ -37,7 +93,7 @@
                 </fieldset>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <asp:Button ID="saveButton" runat="server" Text="保存" OnClick="onSaveButtonClick" />
+        <input type="button" name="test" id="test" value="保存"/> 
     </form>
 </body>
 </html>

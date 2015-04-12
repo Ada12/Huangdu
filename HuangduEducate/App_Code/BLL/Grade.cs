@@ -61,6 +61,5 @@ namespace BLL
             int result = hg.InsertData(lgi, c);
             return result;
         }
-        
     }
 }

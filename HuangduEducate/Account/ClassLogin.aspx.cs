@@ -32,7 +32,7 @@ public partial class Account_ClassLogin : System.Web.UI.Page
         {
             //System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('登录成功！');</script>");
             Session["HDClassID"] = ci.ID;
-            Server.Transfer("AddGrade.aspx");
+            Response.Redirect("AddGrade.aspx");
             errorMessage.Text = "";
         }
         else

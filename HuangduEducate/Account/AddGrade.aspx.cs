@@ -100,6 +100,7 @@ public partial class Account_AddGrade : System.Web.UI.Page
                 TableCell tbc1 = new TableCell();
                 TableCell tbc2 = new TableCell();
                 tbc1.Text = stdif.ID;
+                tbc1.ID = (icounter1 + 2) .ToString();
                 tbc2.Text = stdif.Name;
                 tbr.Cells.Add(tbc1);
                 tbr.Cells.Add(tbc2);
