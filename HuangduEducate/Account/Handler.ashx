@@ -4,6 +4,7 @@ using System;
 using System.Web;
 using Model;
 using BLL;
+using AccessDAL;
 using System.Collections.Generic;
 
 public class Handler : IHttpHandler {
@@ -19,29 +20,33 @@ public class Handler : IHttpHandler {
         String[] gradeInfoSet = gradeInfo.Split('_');
         List<GradeInfo> lstgi = new List<GradeInfo>();
         String msg = "";
+        int iss = -1;
         if (selectSubject == "chinese")
-        { 
+        {
+            iss = 1;
             for (int i = 0; i < studentSet.Length; i ++ )
             {
-                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), gradeInfoSet[i], "666", "666");
+                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), gradeInfoSet[i], HDGrade.evil, HDGrade.evil);
                 lstgi.Add(gi);
             }
             msg = "录入成功";
         }
         else if (selectSubject == "math") 
         {
+            iss = 2;
             for (int i = 0; i < studentSet.Length; i++)
             {
-                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), "666", gradeInfoSet[i], "666");
+                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), HDGrade.evil, gradeInfoSet[i], HDGrade.evil);
                 lstgi.Add(gi);
             }
             msg = "录入成功";
         }
         else if (selectSubject == "english")
         {
+            iss = 3;
             for (int i = 0; i < studentSet.Length; i++)
             {
-                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), "666", "666", gradeInfoSet[i]);
+                GradeInfo gi = new GradeInfo(studentSet[i], Int32.Parse(selectWeek), HDGrade.evil, HDGrade.evil, gradeInfoSet[i]);
                 lstgi.Add(gi);
             }
             msg = "录入成功";
@@ -51,7 +56,7 @@ public class Handler : IHttpHandler {
             msg = "录入失败";
         }
         Grade g = new Grade();
-        int result = g.UpdateInfo(lstgi, Convert.ToInt32(selectSubject));
+        int result = g.UpdateInfo(lstgi, iss);
         if (result == 0) {
             msg = "录入失败";
         }

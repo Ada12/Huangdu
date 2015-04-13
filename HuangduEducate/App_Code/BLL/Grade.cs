@@ -14,6 +14,7 @@ namespace BLL
         {
             HDGrade mc = new HDGrade();
             List<GradeInfo> ci = mc.GetGradeInfoList(id);
+            ci.Sort(Grade.compareGradeInfo);
             return ci;
         }
 
@@ -37,6 +38,7 @@ namespace BLL
                 return null;
             }
             List<GradeInfo> ci = mc.GetGradeInfo(ids, iweek);
+            
             return ci;
         }
 
@@ -61,5 +63,29 @@ namespace BLL
             int result = hg.InsertData(lgi, c);
             return result;
         }
+
+        static public int compareGradeInfo(GradeInfo gix, GradeInfo giy)
+        {
+            int step1 = QYDCompare.stringCompare(gix.ID, giy.ID);
+            if (step1 == 0)
+            {
+                if (gix.Week > giy.Week) 
+                {
+                    return 1;
+                }
+                if (gix.Week < giy.Week)
+                {
+                    return -1;
+                }
+                return 0;
+            }
+            else
+            {
+                return step1;
+            }
+
+        }
+
+        
     }
 }

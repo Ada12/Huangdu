@@ -14,10 +14,38 @@ public partial class Account_AddGrade : System.Web.UI.Page
     private List<LevelStructureInfo> levelstructureInfoList;
     private List<StudentInfo> studentInfoList;
     private List<GradeInfo> gradeInfoList;
+
+    public const string SessioIDForLevelStructure = "HDAddGradeLevelStructureInfoList";
+    public const string SessioIDForStudent = "HDAddGradeLevelStudentInfoList";
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //ddlWeek.SelectedIndexChanged+=new EventHandler(onWeekChanged);
         //ddlSubject.SelectedIndexChanged+=new EventHandler(onSubjectChanged);
+        /*
+        try
+        {
+            System.Web.UI.Page pg = (Page)sender;
+            Table classListTable0 = (Table)pg.FindControl("classListTable");
+            DropDownList ddl = (DropDownList)classListTable0.Rows[2].Cells[2].Controls[0];
+            Button bt = (Button)sender;
+            if (bt.ID == "saveButton")
+            {
+                return;
+            }
+        }
+        catch (Exception excp)
+        {
+ 
+        }*/
+
+        initialPage();
+    }
+
+    protected void initialPage()
+    {
+        #region 
         DropDownList ddlWeek = (DropDownList)this.FindControl("ddlWeek");
         DropDownList ddlSubject = (DropDownList)this.FindControl("ddlSubject");
         TableRow classHeaderRow1 = (TableRow)this.FindControl("classHeaderRow1");
@@ -35,15 +63,25 @@ public partial class Account_AddGrade : System.Web.UI.Page
             excep.ToString();
             Server.Transfer("ClassLogin.aspx");
         }
+        ddlSubject.EnableViewState = false;
+        ddlWeek.EnableViewState = true;
         for (int icounterw = 1; icounterw < 22; icounterw++)
         {
-            ddlWeek.Items.Add(new ListItem(icounterw.ToString(),icounterw.ToString()));
+            ddlWeek.Items.Add(new ListItem(icounterw.ToString(), icounterw.ToString()));
         }
-
+        #endregion
         #region addLevestructure
-        LevelStructure lvstr = new LevelStructure();
-        this.levelstructureInfoList = lvstr.getLevelStructurreInfoSimple();
-
+        if (Page.IsPostBack)
+        {
+            this.levelstructureInfoList = (List<LevelStructureInfo>)Session[SessioIDForLevelStructure];
+        }
+        else
+        {
+            LevelStructure lvstr = new LevelStructure();
+            this.levelstructureInfoList = lvstr.getLevelStructurreInfoSimple();
+            Session.Remove(SessioIDForLevelStructure);
+            Session.Add(SessioIDForLevelStructure, this.levelstructureInfoList);
+        }
         string previousStr = "";
         classHeaderRow1.Cells.Clear();
         classHeaderRow2.Cells.Clear();
@@ -58,9 +96,9 @@ public partial class Account_AddGrade : System.Web.UI.Page
         classHeaderRow1.Cells.Add(IDcell);
         classHeaderRow1.Cells.Add(namecell);
         TableHeaderCell tbc00 = new TableHeaderCell();
-        for (int icounter = 0; icounter < this.levelstructureInfoList.Count;++icounter )
+        for (int icounter = 0; icounter < this.levelstructureInfoList.Count; ++icounter)
         {
-            LevelStructureInfo lvstri=this.levelstructureInfoList[icounter];
+            LevelStructureInfo lvstri = this.levelstructureInfoList[icounter];
 
             if (previousStr == lvstri.Iterm)
             {
@@ -85,13 +123,21 @@ public partial class Account_AddGrade : System.Web.UI.Page
         #region addStudentList
         if (classID != "")
         {
-            Student hdstd = new Student();
-            
-            studentInfoList = hdstd.getStudentList(classID);
-            
+            if (Page.IsPostBack)
+            {
+                studentInfoList = (List<StudentInfo>)Session[SessioIDForStudent];
+            }
+            else
+            {
+                Student hdstd = new Student();
+                studentInfoList = hdstd.getStudentList(classID);
+                Session.Remove(SessioIDForStudent);
+                Session.Add(SessioIDForStudent, studentInfoList);
+
+            }
 
             int itemNum = levelstructureInfoList.Count;
-            for (int icounter1=0;icounter1< studentInfoList.Count;icounter1++)
+            for (int icounter1 = 0; icounter1 < studentInfoList.Count; icounter1++)
             {
                 StudentInfo stdif = studentInfoList[icounter1];
                 TableRow tbr = new TableRow();
@@ -100,7 +146,7 @@ public partial class Account_AddGrade : System.Web.UI.Page
                 TableCell tbc1 = new TableCell();
                 TableCell tbc2 = new TableCell();
                 tbc1.Text = stdif.ID;
-                tbc1.ID = (icounter1 + 2) .ToString();
+                tbc1.ID = (icounter1 + 2).ToString();
                 tbc2.Text = stdif.Name;
                 tbr.Cells.Add(tbc1);
                 tbr.Cells.Add(tbc2);
@@ -108,22 +154,20 @@ public partial class Account_AddGrade : System.Web.UI.Page
                 for (int icounter2 = 0; icounter2 < itemNum; icounter2++)
                 {
                     TableCell tbc3n = new TableCell();
-                    DropDownList ddl=new DropDownList();
-                    ddl.ID="ddl:"+stdif.ID+":"+icounter2.ToString();
-                    ddl.Items.Add(new ListItem("请选择","6"));
-                    ddl.Items.Add(new ListItem("1","1"));
-                    ddl.Items.Add(new ListItem("2","2"));
-                    ddl.Items.Add(new ListItem("3","3"));
-                    ddl.Items.Add(new ListItem("4","4"));
-                    ddl.Items.Add(new ListItem("5","5"));
+                    DropDownList ddl = new DropDownList();
+                    ddl.ID = "ddl:" + stdif.ID + ":" + icounter2.ToString();
+                    ddl.Items.Add(new ListItem("请选择", "6"));
+                    ddl.Items.Add(new ListItem("1", "1"));
+                    ddl.Items.Add(new ListItem("2", "2"));
+                    ddl.Items.Add(new ListItem("3", "3"));
+                    ddl.Items.Add(new ListItem("4", "4"));
+                    ddl.Items.Add(new ListItem("5", "5"));
                     tbc3n.Controls.Add(ddl);
                     tbr.Cells.Add(tbc3n);
                 }
-                
-                classListTable.Rows.Add(tbr);
-                
-            }
 
+                classListTable.Rows.Add(tbr);
+            }
         }
         #endregion
     }
@@ -174,17 +218,17 @@ public partial class Account_AddGrade : System.Web.UI.Page
                 if (ddlSubject.SelectedValue == "chinese")
                 {
                     char[] rzc=gradeInfoList[ic1].Chinese.ToCharArray();
-                    ddl.SelectedIndex = (rzc[levelstructureInfoList[ic2].Position] - '0') % 6;
+                    ddl.SelectedIndex = (rzc[ic2] - '0') % 6;
                 }
                 else if (ddlSubject.SelectedValue == "math")
                 {
                     char[] rzc = gradeInfoList[ic1].Math.ToCharArray();
-                    ddl.SelectedIndex = (rzc[levelstructureInfoList[ic2].Position] - '0') % 6;
+                    ddl.SelectedIndex = (rzc[ic2] - '0') % 6;
                 }
                 else
                 {
                     char[] rzc = gradeInfoList[ic1].English.ToCharArray();
-                    ddl.SelectedIndex = (rzc[levelstructureInfoList[ic2].Position] - '0') % 6;
+                    ddl.SelectedIndex = (rzc[ic2] - '0') % 6;
                 }
             }
         }

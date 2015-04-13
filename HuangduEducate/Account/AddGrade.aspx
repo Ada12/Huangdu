@@ -13,7 +13,6 @@
 
         $(function () {
             $("#test").live("click", function () {
-                var t = document.getElementById("ddl:200635001:0").selectedIndex;
                 var table = document.getElementById("classListTable");
                 var tableRowNum = table.rows.length;
                 var tableColNum = table.rows.item(2).cells.length - 2;

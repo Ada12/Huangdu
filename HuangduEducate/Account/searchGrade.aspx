@@ -30,14 +30,28 @@
         </div>
     <div class="whole-layout ">
      <div class="grade-table-container">
-            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="resulttable" runat="server">
-                <asp:TableHeaderRow CssClass="table-grade-head-row">
-                    <asp:TableHeaderCell CssClass="table-grade-col">学号</asp:TableHeaderCell>
-                    <asp:TableHeaderCell CssClass="table-grade-col">星期</asp:TableHeaderCell>
-                    <asp:TableHeaderCell CssClass="table-grade-col">语文</asp:TableHeaderCell>
-                    <asp:TableHeaderCell CssClass="table-grade-col">数学</asp:TableHeaderCell>
-                    <asp:TableHeaderCell CssClass="table-grade-col">英语</asp:TableHeaderCell>
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="chineseGradeTable" runat="server">
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow0" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
                 </asp:TableHeaderRow>
+                <asp:TableHeaderRow runat="server" ID="gradeHeaderRow1"></asp:TableHeaderRow>
+            </asp:Table>
+            <hr />
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="mathGradeTable" runat="server">
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow2" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                </asp:TableHeaderRow>
+                <asp:TableHeaderRow ID="gradeHeaderRow3" runat="server"></asp:TableHeaderRow>
+            </asp:Table>
+            <hr />
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="englishGradeTable" runat="server">
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow4" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                </asp:TableHeaderRow>
+                <asp:TableHeaderRow ID="gradeHeaderRow5" runat="server"></asp:TableHeaderRow>
             </asp:Table>
         </div>
     

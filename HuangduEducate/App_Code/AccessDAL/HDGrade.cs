@@ -52,7 +52,10 @@ namespace AccessDAL
 
         public static OleDbDataReader GetData(OleDbConnection connection, string sql, OleDbParameter[] cmdParm) {
             OleDbCommand oleCmd = new OleDbCommand(sql, connection);
-            oleCmd.Parameters.Add(cmdParm);
+            for (int icounter = 0; icounter < cmdParm.Length; icounter++)
+            {
+                oleCmd.Parameters.Add(cmdParm[icounter]);
+            }
             
             OleDbDataReader odr = oleCmd.ExecuteReader();
             return odr;

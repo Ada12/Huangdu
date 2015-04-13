@@ -21,7 +21,7 @@ public class LevelStructure
     {
         HDLevelStructure hdls = new HDLevelStructure();
         List<LevelStructureInfo> lvsstlist= hdls.GetLevelStructureSimple();
-        lvsstlist.Sort(this.comparetLevelStructure);
+        lvsstlist.Sort(LevelStructure.comparetLevelStructureByPosition);
         return lvsstlist;
     }
 
@@ -47,7 +47,7 @@ public class LevelStructure
 	{
 	}
 
-    public int comparetLevelStructure(LevelStructureInfo lvix,LevelStructureInfo lviy)
+    static public int comparetLevelStructureByName(LevelStructureInfo lvix,LevelStructureInfo lviy)
     {
         int step1 = QYDCompare.stringCompare(lvix.Iterm, lviy.Iterm);
         if (step1 != 0)
@@ -58,6 +58,19 @@ public class LevelStructure
         {
             return QYDCompare.stringCompare(lvix.Subiterm, lviy.Subiterm);
         }
+    }
+
+    static public int comparetLevelStructureByPosition(LevelStructureInfo lvix, LevelStructureInfo lviy)
+    {
+        if (lvix.Position > lviy.Position)
+        {
+            return 1;
+        }
+        if (lvix.Position < lviy.Position)
+        {
+            return -1;
+        }
+        return 0;
     }
 
     static public int maxPosition(List<LevelStructureInfo> lvs)
