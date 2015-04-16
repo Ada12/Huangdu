@@ -33,13 +33,13 @@ namespace AccessDAL
         private const string SQL_UPDATE_TWO = "update levelstructure set two = @two where item=@item and subitem=@subitem";
         private const string SQL_UPDATE_ONE = "update levelstructure set one = @one where item=@item and subitem=@subitem";
         private const string SQL_UPDATE_ALL = "update levelstructure set five = @five, four = @four, three = @three, two = @two,one = @one where item = @item and subitem = @subitem";
+        private const string SQL_UPDATE_POSIT = "update levelstructure set posit = @posit where item=@item and subitem=@subitem";
+        private const string SQL_DELETE_POSIT = "delete from levelstructure where posit = @posit";
+        private const string SQL_DELETE_ITEM = "delete from levelstructure where item=@item and subitem=@subitem";
 
         public int InsertData(string sql, OleDbParameter[] cmdParms, OleDbConnection connection)
         {
             int ret = -1;
-            //DBConnection dbconn = new DBConnection();
-            //OleDbConnection connection = dbconn.getConnection();
-            //connection.Open();
             OleDbCommand oleCmd = new OleDbCommand(sql, connection);
             if(cmdParms != null)
             {
@@ -130,35 +130,17 @@ namespace AccessDAL
                 return -2;
             }
 
-            List<LevelStructureInfo> allCurrent=  this.GetLevelStructureSimple();
-            HashSet<int> currentPosition = new HashSet<int>();
-            int icount = 0;
-            int maxPosition = -1;
-            
-            for (icount = 0; icount < allCurrent.Count; icount++)
-            {
-                currentPosition.Add(allCurrent[icount].Position);
-                maxPosition = Math.Max(allCurrent[icount].Position, maxPosition);
-            }
-            int targetPosition = maxPosition + 1;
-            for (icount = 0; icount < maxPosition; icount++)
-            {
-                if (!currentPosition.Contains(icount))
-                {
-                    targetPosition = icount;
-                    break;
-                }
-            }
-            
             OleDbParameter[] LevelInfoParams = new OleDbParameter[] { new OleDbParameter(PARM_ITEM, OleDbType.VarChar),
                 new OleDbParameter(PARM_SUBITEM, OleDbType.VarChar), new OleDbParameter(PARM_POSITION, OleDbType.Integer) };
             LevelInfoParams[0].Value = item;
             LevelInfoParams[1].Value = subitem;
-            LevelInfoParams[2].Value = targetPosition;
+            LevelInfoParams[2].Value = 0;
             OleDbConnection oledbcon = (new DBConnection()).getConnection();
             oledbcon.Open();
-            int result=InsertData(SQL_INSERT_CONTENT, LevelInfoParams,oledbcon);
+            int result = InsertData(SQL_INSERT_CONTENT, LevelInfoParams, oledbcon);
             oledbcon.Close();
+
+            this.RefreshPosition();
             return result;
         }
 
@@ -220,6 +202,56 @@ namespace AccessDAL
                 return -1;
             }
             
+        }
+
+        public void RefreshPosition()
+        {
+            List<LevelStructureInfo> allCurrent = this.GetLevelStructureSimple();
+            allCurrent.Sort(BLL.LevelStructure.comparetLevelStructureByName);
+            OleDbConnection oledbcon = (new DBConnection()).getConnection();
+            OleDbCommand updateCmd = new OleDbCommand(SQL_UPDATE_POSIT, oledbcon);
+            oledbcon.Open();
+            for (int icount = 0; icount < allCurrent.Count; icount++)
+            {
+                updateCmd.Parameters.Clear();
+                OleDbParameter[] updateParm = new OleDbParameter[]{new OleDbParameter(PARM_POSITION,OleDbType.Integer),
+                    new OleDbParameter(PARM_ITEM,OleDbType.VarChar),new OleDbParameter(PARM_SUBITEM,OleDbType.VarChar)};
+                updateParm[0].Value = icount;
+                updateParm[1].Value = allCurrent[icount].Iterm;
+                updateParm[2].Value = allCurrent[icount].Subiterm; ;
+                updateCmd.Parameters.Add(updateParm[0]);
+                updateCmd.Parameters.Add(updateParm[1]);
+                updateCmd.Parameters.Add(updateParm[2]);
+                updateCmd.ExecuteNonQuery();
+
+            }
+            oledbcon.Close();
+        }
+
+        public int delete(string item, string subitem)
+        {
+            OleDbConnection oledbcon = (new DBConnection()).getConnection();
+            OleDbCommand deleteCmd = new OleDbCommand(SQL_DELETE_ITEM, oledbcon);
+            oledbcon.Open();
+            OleDbParameter[] deleteParm = new OleDbParameter[]
+            {new OleDbParameter(PARM_ITEM,OleDbType.VarChar),new OleDbParameter(PARM_SUBITEM,OleDbType.VarChar)};
+            deleteParm[0].Value = item;
+            deleteParm[1].Value = subitem;
+            deleteCmd.Parameters.Add(deleteParm[0]);
+            deleteCmd.Parameters.Add(deleteParm[1]);
+            int result = deleteCmd.ExecuteNonQuery();
+            oledbcon.Close();
+            this.RefreshPosition();
+            
+            return result;
+        }
+
+        public int delete(int iposition)
+        {
+            List<LevelStructureInfo> lvslist=this.GetLevelStructureSimple();
+            lvslist.Sort(BLL.LevelStructure.comparetLevelStructureByPosition);
+            LevelStructureInfo liv = lvslist[iposition];
+            return this.delete(liv.Iterm,liv.Subiterm);
         }
     }
 }
