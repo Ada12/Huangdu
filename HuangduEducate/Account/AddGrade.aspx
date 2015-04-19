@@ -72,10 +72,10 @@
         <asp:UpdatePanel ID="updtpnl" runat="server">
             <ContentTemplate>
                 <fieldset>
-                    <asp:DropDownList ID="ddlWeek" runat="server" OnSelectedIndexChanged="onWeekChanged" AutoPostBack="true">
+                    周：<asp:DropDownList ID="ddlWeek" runat="server" OnSelectedIndexChanged="onWeekChanged" AutoPostBack="true">
                         <asp:ListItem Value="none">请选择</asp:ListItem>
                     </asp:DropDownList>
-                    <asp:DropDownList ID="ddlSubject" runat="server" OnSelectedIndexChanged="onSubjectChanged" AutoPostBack="true">
+                    科目：<asp:DropDownList ID="ddlSubject" runat="server" OnSelectedIndexChanged="onSubjectChanged" AutoPostBack="true">
                         <asp:ListItem Value="none">请选择</asp:ListItem>
                         <asp:ListItem Value="chinese">语文</asp:ListItem>
                         <asp:ListItem Value="math">数学</asp:ListItem>
@@ -88,11 +88,10 @@
                     </asp:Table>
                     <br />
                     <br />
-                    
+                    <input type="button" style="margin-left: 280px" class="button button-rounded button-flat-primary login-btn" name="test" id="test" value="保存"/> 
                 </fieldset>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <input type="button" name="test" id="test" value="保存"/> 
     </form>
 </body>
 </html>

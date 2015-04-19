@@ -12,6 +12,7 @@ public partial class Account_LevelStructureManageMent : System.Web.UI.Page
     private List<LevelStructureInfo> llsi;
     private const string SessionIdLevelStructuers="HDLevelStructMgmt";
     string[] header = new string[7] { "i", "s", "5", "4", "3", "2", "1" };
+    private string adminID;
 
     bool inputTableVisibility = false;
     protected void Page_Load(object sender, EventArgs e)
@@ -20,6 +21,16 @@ public partial class Account_LevelStructureManageMent : System.Web.UI.Page
         ///此处添加关于权限的代码
         /// </summary>
         /// 
+        try
+        {
+            adminID = Session["adminID"].ToString();
+        }
+        catch (Exception exception1)
+        {
+            exception1.ToString();
+            Response.Redirect("AdminLogin.aspx");
+            return;
+        }
         
         if (Page.IsPostBack)
         {

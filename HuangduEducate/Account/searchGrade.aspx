@@ -38,7 +38,17 @@
                 </asp:TableHeaderRow>
                 <asp:TableHeaderRow runat="server" ID="gradeHeaderRow1"></asp:TableHeaderRow>
             </asp:Table>
-            <hr />
+            <br />
+            <h3>语文成绩排名表</h3>
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="chineseRankTable" runat="server">
+            
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="rankHeaderRow0" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                </asp:TableHeaderRow>
+                <asp:TableHeaderRow ID="rankHeaderRow1" runat="server"></asp:TableHeaderRow>
+            </asp:Table>
+            <br />
             <h3>数学成绩表</h3>
             <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="mathGradeTable" runat="server">
                 <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow2" runat="server">
@@ -47,7 +57,17 @@
                 </asp:TableHeaderRow>
                 <asp:TableHeaderRow ID="gradeHeaderRow3" runat="server"></asp:TableHeaderRow>
             </asp:Table>
-            <hr />
+            <br />
+            <h3>数学成绩排名表</h3>
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="mathRankTable" runat="server">
+            
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="rankHeaderRow2" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                </asp:TableHeaderRow>
+                <asp:TableHeaderRow ID="rankHeaderRow3" runat="server"></asp:TableHeaderRow>
+            </asp:Table>
+            <br />
             <h3>英语成绩表</h3>
             <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="englishGradeTable" runat="server">
             
@@ -57,17 +77,27 @@
                 </asp:TableHeaderRow>
                 <asp:TableHeaderRow ID="gradeHeaderRow5" runat="server"></asp:TableHeaderRow>
             </asp:Table>
+            <br />
+            <h3>英语成绩排名表</h3>
+            <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="englishRankTable" runat="server">
+            
+                <asp:TableHeaderRow CssClass="table-grade-head-row" ID="rankHeaderRow4" runat="server">
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
+                </asp:TableHeaderRow>
+                <asp:TableHeaderRow ID="rankHeaderRow5" runat="server"></asp:TableHeaderRow>
+            </asp:Table>
+            <br />
         </div>
-    
-        <div class="chart-container" runat="server" id="cChartRoot">
+        <div runat="server" id="cChartRoot">
             
             
         </div>
-        <div class="chart-container" runat="server" id="mChartRoot">
+        <div runat="server" id="mChartRoot">
             
             
         </div>
-        <div class="chart-container" runat="server" id="eChartRoot">
+        <div  runat="server" id="eChartRoot">
             
             
         </div>

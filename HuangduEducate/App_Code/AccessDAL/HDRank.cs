@@ -20,6 +20,7 @@ namespace AccessDAL
 
         private const string SQL_SELECT_CONTENT = "select studentID, name, class_num from student where class_num = @class_num ";
         private const string SQL_SELECT_GRADE = "select week, chinese, math, english from grade where ID = @studentID";
+        private const string SQL_SELECT_WEEK = "SELECT week FROM grade ORDER BY week DESC";
         //   private const string SQL_SELECT_CONTENT_BY_CLASS = "select studentID, name, class_num from student where class_num = @class_num;";
         // private const string SQL_INSERT_CONTENT_BY_ID = "insert into student(studentID, name, class_num ) values (@studentID, @name, @class_num);";
 
@@ -67,7 +68,7 @@ namespace AccessDAL
             return lgi;
         }
 
-        public List<RankInfo> getGradeRank(string classNum) 
+        public RankInfo getGradeRank(string classNum) 
         {
             HDGrade hg = new HDGrade();
             List<StudentInfo> lsi = getAllStudents(classNum);
@@ -93,7 +94,8 @@ namespace AccessDAL
                 fourPoint[i] = 0;
                 fivePoint[i] = 0;
             }
-            for (int w = 1; w < 21; w++)
+            int hightestWeek = getHighestWeek();
+            for (int w = 1; w < hightestWeek+1; w++)
             {
                 List<GradeInfo> lgi = hg.GetGradeInfo(ids, w);
                 for (int j = 0; j < lgi.Count(); j++)
@@ -132,7 +134,58 @@ namespace AccessDAL
                 RankInfo ri = new RankInfo(classNum, w, onePoint, twoPoint, threePoint, fourPoint, fivePoint);
                 lri.Add(ri);
             }
-            return lri;
+            int len = lri[1].One.Count();
+            int[] oneAvg = new int[len];
+            int[] twoAvg = new int[len];
+            int[] threeAvg = new int[len];
+            int[] fourAvg = new int[len];
+            int[] fiveAvg = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                oneAvg[i] = 0;
+                twoAvg[i] = 0;
+                threeAvg[i] = 0;
+                fourAvg[i] = 0;
+                fiveAvg[i] = 0;
+            }
+            for (int p = 0; p < len; p ++)
+            {
+                for(int n = 0; n < hightestWeek; n++)
+                {
+                    oneAvg[p] = oneAvg[p] + lri[n].One[p];
+                    twoAvg[p] = twoAvg[p] + lri[n].Two[p];
+                    threeAvg[p] = threeAvg[p] + lri[n].Three[p];
+                    fourAvg[p] = fourAvg[p] + lri[n].Four[p];
+                    fiveAvg[p] = fiveAvg[p] + lri[n].Five[p];
+                }
+            }
+            for (int q = 0; q < len; q ++)
+            {
+                oneAvg[q] = oneAvg[q] / hightestWeek;
+                twoAvg[q] = twoAvg[q] / hightestWeek;
+                threeAvg[q] = threeAvg[q] / hightestWeek;
+                fourAvg[q] = fourAvg[q] / hightestWeek;
+                fiveAvg[q] = fiveAvg[q] / hightestWeek;
+            }
+
+            RankInfo riAvg = new RankInfo(classNum, 1, oneAvg, twoAvg, threeAvg, fourAvg, fiveAvg);
+            return riAvg;
         }
+
+        public int getHighestWeek()
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbCommand oleCmd = new OleDbCommand(SQL_SELECT_WEEK, connection);
+            OleDbDataReader odr = oleCmd.ExecuteReader();
+            int hightWeek = 0;
+            if(odr.Read()){
+                hightWeek = odr.GetInt32(0);
+            }
+            return hightWeek;
+        }
+
+        
     }
 }

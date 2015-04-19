@@ -14,16 +14,16 @@ public partial class Account_main : System.Web.UI.Page
 
     protected void studentBtn_Click(object sender, EventArgs e) 
     {
-        Server.Transfer("StudentLogin.aspx");
+        Response.Redirect("StudentLogin.aspx");
     }
 
     protected void teacherBtn_Click(object sender, EventArgs e)
     {
-        Server.Transfer("ClassLogin.aspx");
+        Response.Redirect("ClassLogin.aspx");
     }
 
     protected void adminBtn_Click(object sender, EventArgs e) 
     {
-        Server.Transfer("AdminLogin.aspx");
+        Response.Redirect("AdminLogin.aspx");
     }
 }

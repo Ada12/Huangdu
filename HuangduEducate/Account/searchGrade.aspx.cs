@@ -115,6 +115,43 @@ public partial class search_search : System.Web.UI.Page
                 HeaderRow2.Cells.Add(tbc02);
             }
         }
+
+        for (int subject = 0; subject < 3; subject++)
+        {
+            TableRow HeaderRow3 = (TableRow)this.FindControl("rankHeaderRow" + (2 * subject).ToString());
+            TableRow HeaderRow4 = (TableRow)this.FindControl("rankHeaderRow" + (2 * subject + 1).ToString());
+            string previousStr1 = "";
+            HeaderRow3.Cells.Clear();
+            HeaderRow4.Cells.Clear();
+            HeaderRow3.EnableViewState = false;
+            HeaderRow4.EnableViewState = false;
+            TableHeaderCell PointCell = new TableHeaderCell();
+            PointCell.Text = "分数状态";
+            PointCell.RowSpan = 2;
+            HeaderRow3.Cells.Add(PointCell);
+            TableHeaderCell t00 = new TableHeaderCell();
+            for (int icounter1 = 0; icounter1 < this.levelstructureInfoList.Count; ++icounter1)
+            {
+                LevelStructureInfo lvstri1 = this.levelstructureInfoList[icounter1];
+                if (previousStr1 == lvstri1.Iterm)
+                {
+                    t00.ColumnSpan += 1;
+                }
+                else
+                {
+                    TableHeaderCell t01 = new TableHeaderCell();
+                    t00 = t01;
+                    t00.ColumnSpan = 1;
+                    t01.Text = lvstri1.Iterm;
+                    previousStr1 = t01.Text;
+                    HeaderRow3.Cells.Add(t01);
+                }
+                TableHeaderCell t02 = new TableHeaderCell();
+                t02.Text = lvstri1.Subiterm;
+                HeaderRow4.Cells.Add(t02);
+            }
+        }
+
         #endregion
     }
 
@@ -124,6 +161,10 @@ public partial class search_search : System.Web.UI.Page
         Table tableen = (Table)this.FindControl("englishGradeTable");
         Table tablecn = (Table)this.FindControl("chineseGradeTable");
         Table tablemt = (Table)this.FindControl("mathGradeTable");
+
+        Table tablerkcn = (Table)this.FindControl("chineseRankTable");
+        Table tablerkmt = (Table)this.FindControl("mathRankTable");
+        Table tablerken = (Table)this.FindControl("englishRankTable");
         
         if (Page.IsPostBack)
         {
@@ -189,6 +230,59 @@ public partial class search_search : System.Web.UI.Page
             tablemt.Rows.Add(tbrmt);
             tableen.Rows.Add(tbren);
         }
+
+        Rank rank = new Rank();
+        RankInfo ri = new RankInfo();
+        Student s = new Student();
+        StudentInfo si = new StudentInfo();
+        si = s.GetStudentInfo(studentID);
+        ri = rank.getGradeRank(si.ClassNum);
+        List<int[]> lri = new List<int[]>();
+        lri.Add(ri.One);
+        lri.Add(ri.Two);
+        lri.Add(ri.Three);
+        lri.Add(ri.Four);
+        lri.Add(ri.Five);
+        for (int icounter2 = 0; icounter2 < 5; icounter2++)
+        {
+            TableRow tbr1cn = new TableRow();
+            TableRow tbr1mt = new TableRow();
+            TableRow tbr1en = new TableRow();
+            TableCell PointCell1 = new TableCell();
+            TableCell PointCell2 = new TableCell();
+            TableCell PointCell3 = new TableCell();
+            PointCell1.Text = (icounter2 + 1).ToString() + "分人数";
+            tbr1cn.Cells.Add(PointCell1);
+            for (int icounter3 = 0; icounter3 < levelstructureInfoList.Count; icounter3 ++)
+            {
+                int prepare1 = lri[icounter2][icounter3];
+                TableCell tbc1 = new TableCell();
+                tbc1.Text = prepare1.ToString();
+                tbr1cn.Cells.Add(tbc1);
+            }
+            PointCell2.Text = (icounter2 + 1).ToString() + "分人数";
+            tbr1mt.Cells.Add(PointCell2);
+            for (int icounter4 = levelstructureInfoList.Count; icounter4 < 2 * levelstructureInfoList.Count; icounter4 ++)
+            {
+                int prepare2 = lri[icounter2][icounter4];
+                TableCell tbc2 = new TableCell();
+                tbc2.Text = prepare2.ToString();
+                tbr1mt.Cells.Add(tbc2);
+            }
+            PointCell3.Text = (icounter2 + 1).ToString() + "分人数";
+            tbr1en.Cells.Add(PointCell3);
+            for (int icounter5 = 2 * levelstructureInfoList.Count; icounter5 < 3 * levelstructureInfoList.Count; icounter5 ++)
+            {
+                int prepare3 = lri[icounter2][icounter5];
+                TableCell tbc3 = new TableCell();
+                tbc3.Text = prepare3.ToString();
+                tbr1en.Cells.Add(tbc3);
+            }
+            tablerkcn.Rows.Add(tbr1cn);
+            tablerkmt.Rows.Add(tbr1mt);
+            tablerken.Rows.Add(tbr1en);
+        }
+        
         
     }
 
@@ -223,11 +317,16 @@ public partial class search_search : System.Web.UI.Page
             for (int ichart = 0; ichart < chartNumForSingleSubject; ichart++)
             {
                 Chart newchart = new Chart();
+                newchart.Width = 1000;
+                newchart.Height = 500;
                 ChartArea ca = new ChartArea();
+                
                 newchart.Titles.Add(titleForSubject[isubject] + ":" + Items[ichart]);
                 ca.AxisX.Title = "星期";
+                ca.AxisX.TitleFont = new System.Drawing.Font("微软雅黑", 12);
                 ca.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
                 ca.AxisY.Title = "成绩";
+                ca.AxisY.TitleFont = new System.Drawing.Font("微软雅黑", 12);
                 ca.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
                 ca.AxisX.MajorGrid.Enabled = false;//不显示竖着的分割线
                 newchart.ChartAreas.Add(ca);
@@ -307,6 +406,7 @@ public partial class search_search : System.Web.UI.Page
             Series sss = new Series();
             sss.ChartType = SeriesChartType.Line;
             Legend legend = new Legend("legend" + icounter4.ToString());
+            legend.Font = new System.Drawing.Font("微软雅黑", 12);
             legend.Docking = Docking.Top;
             currentChart.Legends.Add(legend);
             sss.XValueMember = "week";
@@ -314,6 +414,7 @@ public partial class search_search : System.Web.UI.Page
             sss.Legend = "legend" + icounter4.ToString(); 
             sss.LegendText = levelstructureInfoList[icounter4].Subiterm;
             sss.IsValueShownAsLabel = true;//显示坐标
+            sss.Font = new System.Drawing.Font("微软雅黑", 12);
             currentChart.Series.Add(sss);
         }
     }

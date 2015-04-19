@@ -14,13 +14,13 @@
             <div>
                 <asp:Label Text="添加学生" ID="addStudent" runat="server" />
                 <hr />
-                学号：<asp:TextBox ID="studentID_TB" runat="server"></asp:TextBox>
+                &nbsp; &nbsp;&nbsp; &nbsp;学号：<asp:TextBox ID="studentID_TB" runat="server"></asp:TextBox>
                 <br />
                 <br />
-                姓名：<asp:TextBox ID="name_TB" runat="server"></asp:TextBox>
+                &nbsp; &nbsp;&nbsp; &nbsp;姓名：<asp:TextBox ID="name_TB" runat="server"></asp:TextBox>
                 <br />
                 <br />
-                班级：
+                &nbsp; &nbsp;&nbsp; &nbsp;班级：
                 <asp:DropDownList ID="class_DD" runat="server">
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
@@ -61,6 +61,21 @@
             <div>
                 <asp:Label Text="添加班级" ID="addClass" runat="server"/>
                 <hr />
+                &nbsp; &nbsp;&nbsp; &nbsp;班级：
+                <asp:DropDownList ID="addClassClass_DD" runat="server">
+                    <asp:ListItem>1</asp:ListItem>
+                    <asp:ListItem>2</asp:ListItem>
+                    <asp:ListItem>3</asp:ListItem>
+                    <asp:ListItem>4</asp:ListItem>
+                    <asp:ListItem>5</asp:ListItem>
+                    <asp:ListItem>6</asp:ListItem>
+                    <asp:ListItem>7</asp:ListItem>
+                    <asp:ListItem>8</asp:ListItem>
+                    <asp:ListItem>9</asp:ListItem>
+                    <asp:ListItem>10</asp:ListItem>
+                </asp:DropDownList>
+                <br />
+                <br />
                 入学年份：
                 <asp:DropDownList ID="addClassEnterTime_DD" runat="server">
                     <asp:ListItem>2009</asp:ListItem>
@@ -80,21 +95,6 @@
                     <asp:ListItem>2023</asp:ListItem>
                     <asp:ListItem>2024</asp:ListItem>
                     <asp:ListItem>2025</asp:ListItem>
-                </asp:DropDownList>
-                <br />
-                <br />
-                班级：
-                <asp:DropDownList ID="addClassClass_DD" runat="server">
-                    <asp:ListItem>1</asp:ListItem>
-                    <asp:ListItem>2</asp:ListItem>
-                    <asp:ListItem>3</asp:ListItem>
-                    <asp:ListItem>4</asp:ListItem>
-                    <asp:ListItem>5</asp:ListItem>
-                    <asp:ListItem>6</asp:ListItem>
-                    <asp:ListItem>7</asp:ListItem>
-                    <asp:ListItem>8</asp:ListItem>
-                    <asp:ListItem>9</asp:ListItem>
-                    <asp:ListItem>10</asp:ListItem>
                 </asp:DropDownList>
                 <br />
                 <br />

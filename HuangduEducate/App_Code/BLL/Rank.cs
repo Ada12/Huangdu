@@ -26,6 +26,18 @@ namespace BLL
             return lgi;
         }
 
-        
+        public RankInfo getGradeRank(string classNum)
+        {
+            HDRank hr = new HDRank();
+            RankInfo ri = hr.getGradeRank(classNum);
+            return ri;
+        }
+
+        public int getWeek()
+        {
+            HDRank hr = new HDRank();
+            int week = hr.getHighestWeek();
+            return week;
+        }
     }
 }

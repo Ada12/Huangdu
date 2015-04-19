@@ -10,7 +10,7 @@
 </head>
 <body>
     <form id="form1" class="login-form" runat="server">
-        <asp:TextBox ID="adminID_TB" placeholder="用户名" runat="server"></asp:TextBox> <br />
+        <asp:TextBox ID="adminID_TB" placeholder="管理员用户名" runat="server"></asp:TextBox> <br />
         <asp:TextBox ID="password_TB" placeholder="密码" runat="server" TextMode="Password"></asp:TextBox>
         <asp:Label ID="errorMessage" runat="server"></asp:Label>  <br />
         <asp:Button CssClass="button button-rounded button-flat-action login-btn-student" ID="loginBtn" runat="server" Text="登录" OnClick="loginBtn_Click"/>
