@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Model;
 using BLL;
 using System.Data;
+using System.Web.UI.DataVisualization.Charting;
 
 public partial class search_search : System.Web.UI.Page
 {
@@ -31,8 +32,8 @@ public partial class search_search : System.Web.UI.Page
             return;
         }
         this.initialTables();
-        this.fillCharts();
-
+        this.fillTables();
+        this.drawCharts();
         
     }
 
@@ -84,7 +85,7 @@ public partial class search_search : System.Web.UI.Page
             TableHeaderCell IDcell = new TableHeaderCell();
             TableHeaderCell namecell = new TableHeaderCell();
             IDcell.Text = "学号";
-            namecell.Text = "姓名";
+            namecell.Text = "周";
             IDcell.RowSpan = 2;
             namecell.RowSpan = 2;
             HeaderRow1.Cells.Add(IDcell);
@@ -117,10 +118,211 @@ public partial class search_search : System.Web.UI.Page
         #endregion
     }
 
-    void fillCharts()
+    void fillTables()
     {
-        #region previous code
-        /*
+        
+        Table tableen = (Table)this.FindControl("englishGradeTable");
+        Table tablecn = (Table)this.FindControl("chineseGradeTable");
+        Table tablemt = (Table)this.FindControl("mathGradeTable");
+        
+        if (Page.IsPostBack)
+        {
+            searchResult = (List<GradeInfo>)Session[SessioIDForLevelGrades];
+        }
+        else
+        {
+            Grade grade = new Grade();
+            searchResult = grade.GetGradeInfoList(studentID);
+            Session.Remove(SessioIDForLevelGrades);
+            Session.Add(SessioIDForLevelGrades, searchResult);
+        }
+        for (int icounter1 = 0; icounter1 < searchResult.Count; icounter1++)
+        {
+            TableRow tbrcn = new TableRow(), tbrmt = new TableRow(), tbren = new TableRow();
+            GradeInfo gi = searchResult[icounter1];
+            if (gi.Chinese.Length >= levelstructureInfoList.Count)
+            {
+                TableCell idcell = new TableCell(), weekcell = new TableCell();
+                idcell.Text = gi.ID;
+                weekcell.Text = gi.Week.ToString();
+                tbrcn.Cells.Add(idcell);
+                tbrcn.Cells.Add(weekcell);
+                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
+                {
+                    string prepare = gi.Chinese.Substring(icounter2, 1);
+                    TableCell tbc = new TableCell();
+                    tbc.Text = (prepare == "0" ? "" : prepare);
+                    tbrcn.Cells.Add(tbc);
+                }
+            }
+            if (gi.Math.Length >= levelstructureInfoList.Count)
+            {
+                TableCell idcell = new TableCell(), weekcell = new TableCell();
+                idcell.Text = gi.ID;
+                weekcell.Text = gi.Week.ToString();
+                tbrmt.Cells.Add(idcell);
+                tbrmt.Cells.Add(weekcell);
+                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
+                {
+                    string prepare = gi.Math.Substring(icounter2, 1);
+                    TableCell tbc = new TableCell();
+                    tbc.Text = (prepare == "0" ? "" : prepare);
+                    tbrmt.Cells.Add(tbc);
+                }
+            } 
+            if (gi.English.Length >= levelstructureInfoList.Count)
+            {
+                TableCell idcell = new TableCell(), weekcell = new TableCell();
+                idcell.Text = gi.ID;
+                weekcell.Text = gi.Week.ToString();
+                tbren.Cells.Add(idcell);
+                tbren.Cells.Add(weekcell);
+                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
+                {
+                    string prepare = gi.English.Substring(icounter2, 1);
+                    TableCell tbc = new TableCell();
+                    tbc.Text = (prepare == "0" ? "" : prepare);
+                    tbren.Cells.Add(tbc);
+                }
+            }
+            tablecn.Rows.Add(tbrcn);
+            tablemt.Rows.Add(tbrmt);
+            tableen.Rows.Add(tbren);
+        }
+        
+    }
+
+    void drawCharts()
+    {
+        Control chineseChartRoot = this.FindControl("cChartRoot");
+        Control mathChartRoot = this.FindControl("mChartRoot");
+        Control englishChartRoot = this.FindControl("eChartRoot");
+        Control[] chartRoots=new Control[4]{null,chineseChartRoot,mathChartRoot,englishChartRoot};
+        string[] titleForSubject = new string[4] { "", "语文", "数学", "英语" };
+        
+        List<int> chartThePositionBelongsTo=new List<int>();
+        List<string> Items = new List<string>();
+        int chartNumForSingleSubject=0;
+        string currentItem = "";
+        int columnNum = levelstructureInfoList.Count;
+        for (int ic = 0; ic < columnNum; ic++)
+        {
+            if (this.levelstructureInfoList[ic].Iterm != currentItem)
+            {
+                ++chartNumForSingleSubject;
+                currentItem = this.levelstructureInfoList[ic].Iterm;
+                Items.Add(currentItem);
+            }
+            chartThePositionBelongsTo.Add(chartNumForSingleSubject-1);
+            
+        }
+
+        for (int isubject = 1; isubject < 4; isubject++)
+        {
+            List<Chart> chartList = new List<Chart>();
+            for (int ichart = 0; ichart < chartNumForSingleSubject; ichart++)
+            {
+                Chart newchart = new Chart();
+                ChartArea ca = new ChartArea();
+                newchart.Titles.Add(titleForSubject[isubject] + ":" + Items[ichart]);
+                ca.AxisX.Title = "星期";
+                ca.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
+                ca.AxisY.Title = "成绩";
+                ca.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
+                ca.AxisX.MajorGrid.Enabled = false;//不显示竖着的分割线
+                newchart.ChartAreas.Add(ca);
+                chartList.Add(newchart);
+            }
+            drawChartForOneSubject(chartList, chartThePositionBelongsTo, isubject);
+            for (int ichart = 0; ichart < chartNumForSingleSubject; ichart++)
+            {
+                chartRoots[isubject].Controls.Add(chartList[ichart]);
+            }
+        }
+    }
+
+    void drawChartForOneSubject(List<Chart> chartRoot, List<int> chartsItBelongsTo, int isubject)
+    {
+        int chartAmount = chartRoot.Count;
+        int columnNum = levelstructureInfoList.Count;
+        DataTable dttbs = new DataTable();
+        dttbs.Columns.Add("week");
+        for(int icounter1=0;icounter1<columnNum;icounter1++)
+        {
+            dttbs.Columns.Add(levelstructureInfoList[icounter1].Subiterm);
+        }
+
+
+        for (int ig = 0; ig < searchResult.Count; ig++)
+        {
+
+            string gradeString = "";
+            if (isubject == 2)
+            {
+                gradeString = searchResult[ig].Math;
+            }
+            if (isubject == 1)
+            {
+                gradeString = searchResult[ig].Chinese;
+            }
+            if (isubject == 3)
+            {
+                gradeString = searchResult[ig].English;
+            }
+
+            while (gradeString.Length < columnNum)
+            {
+                gradeString = gradeString + "00000000";
+            }
+            DataRow dtr = dttbs.NewRow();
+            dtr["week"] = searchResult[ig].Week;
+            for (int icounter2 = 0; icounter2 < columnNum; icounter2++)
+            {
+                try
+                {
+                    int iii = Convert.ToInt32(gradeString.Substring(icounter2, 1));
+                    if ((iii % 6) != 0)
+                    {
+                        dtr[levelstructureInfoList[icounter2].Subiterm] = iii;
+                    }
+                }
+                catch (Exception manyException)
+                {
+                    dtr[levelstructureInfoList[icounter2].Subiterm] = 0;
+                    manyException.ToString();
+                }
+            }
+            dttbs.Rows.Add(dtr);
+        }
+
+        for (int icounter3 = 0; icounter3 < chartAmount; icounter3++)
+        {
+            Chart currentChart = (Chart)chartRoot[icounter3];
+            currentChart.DataSource = dttbs;
+        }
+
+        for (int icounter4 = 0; icounter4 < columnNum; icounter4++)
+        {
+            Chart currentChart = (Chart)chartRoot[chartsItBelongsTo[icounter4]];
+            Series sss = new Series();
+            sss.ChartType = SeriesChartType.Line;
+            Legend legend = new Legend("legend" + icounter4.ToString());
+            legend.Docking = Docking.Top;
+            currentChart.Legends.Add(legend);
+            sss.XValueMember = "week";
+            sss.YValueMembers = levelstructureInfoList[icounter4].Subiterm;
+            sss.Legend = "legend" + icounter4.ToString(); 
+            sss.LegendText = levelstructureInfoList[icounter4].Subiterm;
+            sss.IsValueShownAsLabel = true;//显示坐标
+            currentChart.Series.Add(sss);
+        }
+    }
+}
+
+#region previous code
+
+//
+/*
         string[] titles = { "语文成绩","数学成绩","英语成绩"};
         DataTable[] GradesDT =new DataTable[3];
         int isubjects=0;
@@ -177,76 +379,4 @@ public partial class search_search : System.Web.UI.Page
             charts[isubjects].ChartAreas["ChartArea1"].AxisX.MajorGrid.Enabled = false;//不显示竖着的分割线
             charts[isubjects].Series[0].IsValueShownAsLabel = true;//显示坐标值
         }*/
-        #endregion
-        Table tableen = (Table)this.FindControl("englishGradeTable");
-        Table tablecn = (Table)this.FindControl("chineseGradeTable");
-        Table tablemt = (Table)this.FindControl("mathGradeTable");
-        
-        if (Page.IsPostBack)
-        {
-            searchResult = (List<GradeInfo>)Session[SessioIDForLevelGrades];
-        }
-        else
-        {
-            Grade grade = new Grade();
-            searchResult = grade.GetGradeInfoList(studentID);
-            Session.Remove(SessioIDForLevelGrades);
-            Session.Add(SessioIDForLevelGrades, searchResult);
-        }
-        for (int icounter1 = 0; icounter1 < searchResult.Count; icounter1++)
-        {
-            TableRow tbrcn = new TableRow(), tbrmt = new TableRow(), tbren = new TableRow();
-            GradeInfo gi = searchResult[icounter1];
-            if (gi.Chinese.Length >= levelstructureInfoList.Count)
-            {
-                TableCell idcell = new TableCell(), weekcell = new TableCell();
-                idcell.Text = gi.ID;
-                weekcell.Text = gi.Week.ToString();
-                tbrcn.Cells.Add(idcell);
-                tbrcn.Cells.Add(weekcell);
-                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
-                {
-                    string prepare = gi.Chinese.Substring(icounter2, 1);
-                    TableCell tbc = new TableCell();
-                    tbc.Text = (prepare == "6" ? "" : prepare);
-                    tbrcn.Cells.Add(tbc);
-                }
-            }
-            if (gi.Math.Length >= levelstructureInfoList.Count)
-            {
-                TableCell idcell = new TableCell(), weekcell = new TableCell();
-                idcell.Text = gi.ID;
-                weekcell.Text = gi.Week.ToString();
-                tbrmt.Cells.Add(idcell);
-                tbrmt.Cells.Add(weekcell);
-                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
-                {
-                    string prepare = gi.Math.Substring(icounter2, 1);
-                    TableCell tbc = new TableCell();
-                    tbc.Text = (prepare == "6" ? "" : prepare);
-                    tbrmt.Cells.Add(tbc);
-                }
-            } 
-            if (gi.English.Length >= levelstructureInfoList.Count)
-            {
-                TableCell idcell = new TableCell(), weekcell = new TableCell();
-                idcell.Text = gi.ID;
-                weekcell.Text = gi.Week.ToString();
-                tbren.Cells.Add(idcell);
-                tbren.Cells.Add(weekcell);
-                for (int icounter2 = 0; icounter2 < levelstructureInfoList.Count; icounter2++)
-                {
-                    string prepare = gi.English.Substring(icounter2, 1);
-                    TableCell tbc = new TableCell();
-                    tbc.Text = (prepare == "6" ? "" : prepare);
-                    tbren.Cells.Add(tbc);
-                }
-            }
-            tablecn.Rows.Add(tbrcn);
-            tablemt.Rows.Add(tbrmt);
-            tableen.Rows.Add(tbren);
-        }
-        
-    }
-   
-}
+#endregion

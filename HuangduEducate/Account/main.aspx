@@ -12,7 +12,7 @@
     <form id="form1" class="login-form" runat="server">
     <asp:Button id="studentBtn" CssClass="button button-rounded button-flat-primary login-btn" text="学生登录" runat="server" OnClick="studentBtn_Click"/>
     <br />
-    <asp:Button id="teacherBtn" CssClass="button button-rounded button-flat-primary login-btn" text="教师登录" runat="server" OnClick="teacherBtn_Click"/>
+    <asp:Button id="teacherBtn" CssClass="button button-rounded button-flat-primary login-btn" text="班级登录" runat="server" OnClick="teacherBtn_Click"/>
     <asp:Button ID="adminBtn" CssClass="button button-rounded button-flat-primary login-btn" text="管理员登陆" runat="server" OnClick="adminBtn_Click" />
     </form>
 </body>

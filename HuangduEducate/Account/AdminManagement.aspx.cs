@@ -77,13 +77,36 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         }
         else
         {
-            
+            int result = c.UpdatePassword(classID, newPassword);
+            if(result > 0){
+                System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('密码修改成功！');</script>");
+            }
         }
     }
 
     protected void changeAdminPasswordBtn_Click(object sender, EventArgs e)
-    { 
+    {
+        string oldPassword = oldAdminPassword_TB.Text;
+        string newPassword = newAdminPassword_TB.Text;
+        string newPasswordConfirm = newAdminPasswordConfirm_TB.Text;
+        Admin a = new Admin();
+        AdminInfo ai = new AdminInfo();
+        string uid = (string)HttpContext.Current.Session["adminID"];
+        ai = a.GetAdminInfo(uid);
         
+        if (ai.Password != oldPassword)
+        {
+            changeClassErrorMsg.Text = "原密码不正确";
+        }
+        else if (newPassword != newPasswordConfirm)
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('密码不相同！');</script>");
+        }
+        else
+        {
+            AdminInfo ainew = new AdminInfo(uid, newPassword);
+            int result = a.UpdateInfo(ainew);
+        }
     }
 
     protected void changeGrade_Click(object sender, EventArgs e)
@@ -99,5 +122,10 @@ public partial class Account_AdminManagement : System.Web.UI.Page
             System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改成功！');</script>");
         }
 
+    }
+
+    protected void changeLevelStructureBtn_Click(object sender, EventArgs e) 
+    {
+        Response.Redirect("LevelStructureManageMent.aspx");
     }
 }

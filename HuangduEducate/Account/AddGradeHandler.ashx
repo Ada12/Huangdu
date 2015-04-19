@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="Handler" %>
+﻿<%@ WebHandler Language="C#" Class="AddGradeHandler" %>
 
 using System;
 using System.Web;
@@ -7,7 +7,7 @@ using BLL;
 using AccessDAL;
 using System.Collections.Generic;
 
-public class Handler : IHttpHandler {
+public class AddGradeHandler : IHttpHandler {
     
     public void ProcessRequest (HttpContext context) {
         context.Response.ContentType = "text/plain";

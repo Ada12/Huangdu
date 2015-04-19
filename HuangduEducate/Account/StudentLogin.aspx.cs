@@ -36,7 +36,7 @@ public partial class Account_StudentLogin : System.Web.UI.Page
             Session["huangdueducateid"] = si.ID;
             Session["huangdueducatename"] = si.Name;
             errorMessage.Text = "";
-            Server.Transfer("searchGrade.aspx");
+            Response.Redirect("searchGrade.aspx");
         }
         else
         {

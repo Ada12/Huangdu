@@ -52,7 +52,7 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: 'Handler.ashx',
+                    url: 'AddGradeHandler.ashx',
                     data: info,
                     success: function (data) {
                         //alert("haha");

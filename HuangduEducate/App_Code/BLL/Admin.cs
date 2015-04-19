@@ -18,5 +18,12 @@ namespace BLL
             ai = ha.GetAdminInfo(id);
             return ai;
         }
+
+        public int UpdateInfo(AdminInfo ai) 
+        {
+            HDAdmin ha = new HDAdmin();
+            int result = ha.UpdateInfo(ai);
+            return result;
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace AccessDAL
         private const string SQL_UPDATE_ENGLISH = "UPDATE grade SET english = @english WHERE ID = @ID and week = @week ";
         private const string SQL_UPDATE_ALL = "update grade SET chinese = @chinese , math = @math , english = @english where ID = @ID and week = @week;";
 
-        static public string evil = "666666666666";
+        static public string evil = "000000000000";
 
         public int InsertData(string sql, OleDbParameter[] cmdParms)
         {

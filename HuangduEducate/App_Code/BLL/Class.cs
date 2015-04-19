@@ -34,5 +34,12 @@ namespace BLL
             result = hc.UpdateGrade();
             return result;
         }
+
+        public int UpdatePassword(string classID, string password) 
+        {
+            HDClass hc = new HDClass();
+            int result = hc.UpdateInfo(classID, password);
+            return result;
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace AccessDAL
         private const string PARM_ID = "@adminID";
         private const string PARM_PASSWORD = "@password";
         private const string SQL_SELECT_CONTENT = "select ID, password From admin Where ID = @adminID ";
+        private const string SQL_UPDATE_CONTENT = "UPDATE [admin] SET [password] = @password WHERE [ID] = @adminID;";
 
 
         public static OleDbDataReader GetData(OleDbConnection connection, string sql, OleDbParameter cmdParm)
@@ -52,6 +53,24 @@ namespace AccessDAL
             return ti;
         }
 
+        public int UpdateInfo(AdminInfo ai) {
 
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbParameter[] pw = new OleDbParameter[] { new OleDbParameter(PARM_ID, OleDbType.VarChar), new OleDbParameter(PARM_PASSWORD, OleDbType.VarChar) };
+            pw[0].Value = ai.ID;
+            pw[1].Value = ai.Password;
+            OleDbCommand oleCmd = new OleDbCommand(SQL_UPDATE_CONTENT, connection);
+            oleCmd.Parameters.AddWithValue("@password", pw[1].Value);
+            oleCmd.Parameters.AddWithValue("@adminID", pw[0].Value);
+            int result = oleCmd.ExecuteNonQuery();
+            if (connection != null) 
+            {
+                connection.Close();
+            }
+            return result;
+        } 
     }
+
 }

@@ -21,7 +21,7 @@
                 <asp:TableCell></asp:TableCell>
             </asp:TableRow>
             <asp:TableRow CssClass="">
-                <asp:TableHeaderCell>姓名</asp:TableHeaderCell>
+                <asp:TableHeaderCell>周</asp:TableHeaderCell>
                 <asp:TableCell></asp:TableCell>
             </asp:TableRow>
         </asp:Table>
@@ -30,6 +30,7 @@
         </div>
     <div class="whole-layout ">
      <div class="grade-table-container">
+            <h3>语文成绩表</h3>
             <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="chineseGradeTable" runat="server">
                 <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow0" runat="server">
                     <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
@@ -38,6 +39,7 @@
                 <asp:TableHeaderRow runat="server" ID="gradeHeaderRow1"></asp:TableHeaderRow>
             </asp:Table>
             <hr />
+            <h3>数学成绩表</h3>
             <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="mathGradeTable" runat="server">
                 <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow2" runat="server">
                     <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
@@ -46,7 +48,9 @@
                 <asp:TableHeaderRow ID="gradeHeaderRow3" runat="server"></asp:TableHeaderRow>
             </asp:Table>
             <hr />
+            <h3>英语成绩表</h3>
             <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="englishGradeTable" runat="server">
+            
                 <asp:TableHeaderRow CssClass="table-grade-head-row" ID="gradeHeaderRow4" runat="server">
                     <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
                     <asp:TableHeaderCell CssClass="table-grade-col"></asp:TableHeaderCell>
@@ -55,49 +59,18 @@
             </asp:Table>
         </div>
     
-    <div class="chart-container">
-        <asp:Chart ID="ChartChinese" CssClass="grade-chart" runat="server" Width="570px" >
-            <Titles>
-                <asp:Title Font="微软雅黑, 24pt"></asp:Title>
-            </Titles>          
-            <series>
-                <asp:Series ChartType="Line" Name="Series1">
-                </asp:Series>
-            </series>
-            <chartareas>
-                <asp:ChartArea Name="ChartArea1">
-                </asp:ChartArea>
-            </chartareas>
-        </asp:Chart>
-        <br />
-        <asp:Chart ID="ChartMath" CssClass="grade-chart" runat="server" Width="570px" > 
-            <Titles>
-                <asp:Title Font="微软雅黑, 24pt"></asp:Title>
-            </Titles>                   
-            <series>
-                <asp:Series ChartType="Line" Name="Series1">
-                </asp:Series>
-            </series>
-            <chartareas>
-                <asp:ChartArea Name="ChartArea1">
-                </asp:ChartArea>
-            </chartareas>
-        </asp:Chart>
-        <br />
-        <asp:Chart ID="ChartEnglish" CssClass="grade-chart" runat="server" Width="570px" > 
-            <Titles>
-                <asp:Title Font="微软雅黑, 24pt"></asp:Title>
-            </Titles>                   
-            <series>
-                <asp:Series ChartType="Line" Name="Series1">
-                </asp:Series>
-            </series>
-            <chartareas>
-                <asp:ChartArea Name="ChartArea1">
-                </asp:ChartArea>
-            </chartareas>
-        </asp:Chart>
-    </div>
+        <div class="chart-container" runat="server" id="cChartRoot">
+            
+            
+        </div>
+        <div class="chart-container" runat="server" id="mChartRoot">
+            
+            
+        </div>
+        <div class="chart-container" runat="server" id="eChartRoot">
+            
+            
+        </div>
     </div>
         
     

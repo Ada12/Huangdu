@@ -107,19 +107,19 @@
                <asp:Label Text="修改班级密码" ID="changePassword" runat="server" />
                 <hr />
                 班级账号：
-                <asp:TextBox ID="changePasswordAccountNum_TB" runat="server" />
+                <asp:TextBox ID="changePasswordAccountNum_TB" runat="server"/>
                 <br />
                 <br />
                 &nbsp;&nbsp; 原密码：
-                <asp:TextBox ID="oldPassword_TB" runat="server" />
+                <asp:TextBox ID="oldPassword_TB" runat="server" TextMode="Password"/>
                 <br />
                 <br />
                 &nbsp;&nbsp; 新密码：
-                <asp:TextBox ID="newPassword_TB" runat="server" />
+                <asp:TextBox ID="newPassword_TB" runat="server" TextMode="Password"/>
                 <br />
                 <br />
                 确认密码：
-                <asp:TextBox ID="newPasswordConfirm_TB" runat="server" />
+                <asp:TextBox ID="newPasswordConfirm_TB" runat="server" TextMode="Password"/>
                 <br />
                 <br />
                 <asp:Label ID="changeClassErrorMsg" runat="server"></asp:Label>
@@ -130,7 +130,16 @@
             <div>
                <asp:Label Text="修改管理员密码" ID="Label2" runat="server" />
                 <hr />
-                
+               &nbsp; &nbsp;原密码：
+                <asp:TextBox ID="oldAdminPassword_TB" runat="server" TextMode="Password" />
+                <br />
+                <br />
+               &nbsp; &nbsp;新密码：
+                <asp:TextBox ID="newAdminPassword_TB" runat="server" TextMode="Password"/>
+                <br />
+                <br />
+                确认密码：
+                <asp:TextBox ID="newAdminPasswordConfirm_TB" runat="server" TextMode="Password"/>
                 <br />
                 <br />
                 <asp:Label ID="changeAdminErrorMsg" runat="server"></asp:Label>
@@ -141,6 +150,7 @@
             <div>
                <asp:Label Text="修改条目" ID="changeCatalog" runat="server" />
                <hr />
+               <asp:Button ID="changeLevelStructureBtn" runat="server" Text="修改" OnClick="changeLevelStructureBtn_Click" />
             </div>
             <br />
             <br />

@@ -19,6 +19,7 @@ namespace AccessDAL
         private const string SQL_SELECT_CONTENT = "select classID, classGrade, classNum, password From class Where classID = @classID ";
         private const string SQL_INSERT_CONTENT = "insert into class values(@classID, @grade, @classNum, @password);";
         private const string SQL_UPDATE_GRADE = "update class set classGrade = classGrade + 1";
+        private const string SQL_UPDATE_CONTENT = "UPDATE [class] SET [password] = @password WHERE [classID] = @classID;";
 
         public static int InsertData(string sql, OleDbParameter[] cmdParms)
         {
@@ -98,5 +99,25 @@ namespace AccessDAL
             }
             return result;
         }
+
+        public int UpdateInfo(string classID, string password)
+        {
+
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbParameter[] pw = new OleDbParameter[] { new OleDbParameter(PARM_ID, OleDbType.VarChar), new OleDbParameter(PARM_PASSWORD, OleDbType.VarChar) };
+            pw[0].Value = classID;
+            pw[1].Value = password;
+            OleDbCommand oleCmd = new OleDbCommand(SQL_UPDATE_CONTENT, connection);
+            oleCmd.Parameters.AddWithValue("@password", pw[1].Value);
+            oleCmd.Parameters.AddWithValue("@classID", pw[0].Value);
+            int result = oleCmd.ExecuteNonQuery();
+            if (connection != null)
+            {
+                connection.Close();
+            }
+            return result;
+        } 
     }
 }
