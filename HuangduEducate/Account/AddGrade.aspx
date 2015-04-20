@@ -8,6 +8,8 @@
     <link rel="Stylesheet" href="css/buttons.css" />
     <link rel="Stylesheet" href="css/input.min.css" />
     <link rel="Stylesheet" href="css/AddGrade.css" />
+    <link rel="stylesheet" href="css/purecss/pure-min.css" />
+    <link rel="stylesheet" href="css/purecss/tables-min.css" />
     <script src="css/jquery-1.4.2.js" type="text/javascript"></script>  
     <script type="text/javascript">
 
@@ -81,14 +83,16 @@
                         <asp:ListItem Value="math">数学</asp:ListItem>
                         <asp:ListItem Value="english">英语</asp:ListItem>
                     </asp:DropDownList>
-        
-                    <asp:Table ID="classListTable" runat="server" >
-                        <asp:TableHeaderRow ID="classHeaderRow1" runat="server"></asp:TableHeaderRow>
-                        <asp:TableRow ID="classHeaderRow2" runat="server"></asp:TableRow>
+                    <asp:Button runat="server" OnClick="logoffBtn_Click" Text="登出" />
+                    <br />
+                    <br />
+                    <asp:Table CssClass="pure-table pure-table-bordered grade-table" ID="classListTable" runat="server" >
+                        <asp:TableHeaderRow CssClass="table-grade-head-row" ID="classHeaderRow1" runat="server"></asp:TableHeaderRow>
+                        <asp:TableRow CssClass="pure-table pure-table-bordered grade-table" ID="classHeaderRow2" runat="server"></asp:TableRow>
                     </asp:Table>
                     <br />
                     <br />
-                    <input type="button" style="margin-left: 280px" class="button button-rounded button-flat-primary login-btn" name="test" id="test" value="保存"/> 
+                    <input type="button" style="margin-left: 430px" class="button button-rounded button-flat-primary login-btn" name="test" id="test" value="保存"/> 
                 </fieldset>
             </ContentTemplate>
         </asp:UpdatePanel>

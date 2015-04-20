@@ -83,6 +83,11 @@ public partial class Account_LevelStructureManageMent : System.Web.UI.Page
         }
     }
 
+    protected void backBtn_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminManagement.aspx");
+    }
+
     protected void addNewRow_Click(object sender, EventArgs e)
     {
         ((Button)this.FindControl("addNewRow")).Visible=false;

@@ -54,7 +54,7 @@
                 </asp:DropDownList>
                 <br />
                 <br />
-                <asp:Button ID="Button1" runat="server" Text="提交" OnClick="addStudent_Click" />
+                <asp:Button ID="Button1" runat="server" Text="提交" OnClientClick="return confirm('确认添加?');"  OnClick="addStudent_Click" />
             </div>
             <br />
             <br />
@@ -98,7 +98,7 @@
                 </asp:DropDownList>
                 <br />
                 <br />
-                <asp:Button ID="addClassBtn" Text="提交" OnClick="addClassBtn_Click" runat="server" />
+                <asp:Button ID="addClassBtn" Text="提交" OnClick="addClassBtn_Click" OnClientClick="return confirm('确认添加?');" runat="server" />
                 <asp:Label ID="addClassResultMsg" runat="server" />
             </div>
             <br />
@@ -123,7 +123,7 @@
                 <br />
                 <br />
                 <asp:Label ID="changeClassErrorMsg" runat="server"></asp:Label>
-                <asp:Button ID="changeClassPasswordBtn" runat="server" Text="修改" OnClick="changeCLassPasswordBtn_Click" />
+                <asp:Button ID="changeClassPasswordBtn" runat="server" Text="修改" OnClientClick="return confirm('确认修改?');" OnClick="changeCLassPasswordBtn_Click" />
             </div>
             <br />
             <br />
@@ -150,14 +150,14 @@
             <div>
                <asp:Label Text="修改条目" ID="changeCatalog" runat="server" />
                <hr />
-               <asp:Button ID="changeLevelStructureBtn" runat="server" Text="修改" OnClick="changeLevelStructureBtn_Click" />
+               <asp:Button ID="changeLevelStructureBtn" runat="server" Text="修改" OnClientClick="return confirm('确认修改?');"  OnClick="changeLevelStructureBtn_Click" />
             </div>
             <br />
             <br />
             <div>
                <asp:Label Text="修改年级" ID="Label1" runat="server" />
                <hr />
-               <asp:Button ID="changeGrade" Text="修改" OnClick="changeGrade_Click" runat="server" />
+               <asp:Button ID="changeGrade" Text="修改" OnClientClick="return confirm('确认升级?');"  OnClick="changeGrade_Click" runat="server" />
             </div>
         </div>
         </form>

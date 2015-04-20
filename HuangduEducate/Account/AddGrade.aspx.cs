@@ -18,7 +18,6 @@ public partial class Account_AddGrade : System.Web.UI.Page
     public const string SessioIDForLevelStructure = "HDAddGradeLevelStructureInfoList";
     public const string SessioIDForStudent = "HDAddGradeLevelStudentInfoList";
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
         //ddlWeek.SelectedIndexChanged+=new EventHandler(onWeekChanged);
