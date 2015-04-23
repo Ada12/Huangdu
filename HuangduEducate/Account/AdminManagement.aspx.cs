@@ -37,6 +37,45 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         entertime_DD.SelectedValue = "2015";
     }
 
+    protected void changeStudent_Click(object sender, EventArgs e)
+    {
+        string studentID = changeStudentID_TB.Text;
+        string classnum = changeCurrentClass_DD.Text; //changeCurrentClass_TB.Text;
+        string gradenum = changeCurrentGrade_DD.Text; //changeCurrentGrade_TB.Text;
+        DateTime now = DateTime.Now;
+        int enterGrade = now.Year - Int32.Parse(gradenum) - 2000;
+        string class_num = enterGrade.ToString() + classnum;
+        StudentInfo si = new StudentInfo(studentID, "student", class_num);
+        Student s = new Student();
+        int result = s.changeStudentInfo(si);
+        if (result == 0)
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改失败！');</script>");
+        }
+        else
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改成功！学号"+ studentID +"的年级已经更改为"+ gradenum +"年级，班级更改为"+ classnum +"班');</script>");
+        }
+    }
+
+    protected void logoffBtn_Click(object sender, EventArgs e)
+    {
+        Session["huangdueducateid"] = null;
+        Session["huangdueducatename"] = null;
+        ClearClientPageCache();
+        Response.Redirect("main.aspx");
+    }
+
+    protected void ClearClientPageCache()
+    {
+        Response.Buffer = true;
+        Response.ExpiresAbsolute = DateTime.Now.AddDays(-1);
+        Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+        Response.Expires = 0;
+        Response.CacheControl = "no-cache";
+        Response.Cache.SetNoStore();
+    }
+
     protected void addClassBtn_Click(object sender, EventArgs e) 
     {
         Class c = new Class();
@@ -109,23 +148,40 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         }
     }
 
+    protected void changeLevelStructureBtn_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("LevelStructureManageMent.aspx");
+    }
+
     protected void changeGrade_Click(object sender, EventArgs e)
     {
         Class c = new Class();
+        Student s = new Student();
+        s.deleteOutOfDateStudent();
         int result = c.UpdataGrade();
+        int changedClasses = c.DeleteOutOfDateClass();
         if (result == 0)
         {
-            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改失败！');</script>");
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改失败！');</script>"); 
         }
         else
         {
-            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改成功！');</script>");
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('年级修改成功！');</script>");
         }
 
     }
 
-    protected void changeLevelStructureBtn_Click(object sender, EventArgs e) 
+    protected void changeTerm_Click(object sender, EventArgs e)
     {
-        Response.Redirect("LevelStructureManageMent.aspx");
+        Grade g = new Grade();
+        int result = g.ClearAllData();
+        if(result == 0)
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改失败！');</script>"); 
+        }
+        else
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('学期修改成功！');</script>");
+        }
     }
 }

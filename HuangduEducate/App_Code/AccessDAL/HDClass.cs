@@ -20,6 +20,8 @@ namespace AccessDAL
         private const string SQL_INSERT_CONTENT = "insert into class values(@classID, @grade, @classNum, @password);";
         private const string SQL_UPDATE_GRADE = "update class set classGrade = classGrade + 1";
         private const string SQL_UPDATE_CONTENT = "UPDATE [class] SET [password] = @password WHERE [classID] = @classID;";
+        private const string SQL_DELETE_CLASS = "DELETE FROM class WHERE classGrade = 6 ";
+        private const string SQL_CLASS_NUM = "select classID from class Where classGrade = 5";
 
         public static int InsertData(string sql, OleDbParameter[] cmdParms)
         {
@@ -118,6 +120,35 @@ namespace AccessDAL
                 connection.Close();
             }
             return result;
-        } 
+        }
+
+        public int DeleteOutOfDateClass()
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbCommand oleCmd = new OleDbCommand(SQL_DELETE_CLASS, connection);
+            int result = oleCmd.ExecuteNonQuery();
+            if(connection != null)
+            {
+                connection.Close();
+            }
+            return result;
+        }
+
+        public int GetClassNum()
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbCommand oleCmd = new OleDbCommand(SQL_CLASS_NUM, connection);
+            OleDbDataReader odr = oleCmd.ExecuteReader();
+            int count = 0;
+            while(odr.Read())
+            {
+                count = count + 1;
+            }
+            return count;
+        }
     }
 }

@@ -17,6 +17,7 @@ public partial class search_search : System.Web.UI.Page
     private List<LevelStructureInfo> levelstructureInfoList;
     public const string SessioIDForLevelStructure = "HDSearchGradeLevelStructure";
     public const string SessioIDForLevelGrades = "HDSearchGradeGrades";
+    private List<LevelStructureInfo> llsi;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -31,6 +32,7 @@ public partial class search_search : System.Web.UI.Page
             Server.Transfer("StudentLogin.aspx");
             return;
         }
+        this.drawLvs();
         this.initialTables();
         this.fillTables();
         this.drawCharts();
@@ -126,7 +128,7 @@ public partial class search_search : System.Web.UI.Page
             HeaderRow3.EnableViewState = false;
             HeaderRow4.EnableViewState = false;
             TableHeaderCell PointCell = new TableHeaderCell();
-            PointCell.Text = "分数状态";
+            PointCell.Text = "星级状态";
             PointCell.RowSpan = 2;
             HeaderRow3.Cells.Add(PointCell);
             TableHeaderCell t00 = new TableHeaderCell();
@@ -251,7 +253,9 @@ public partial class search_search : System.Web.UI.Page
             TableCell PointCell1 = new TableCell();
             TableCell PointCell2 = new TableCell();
             TableCell PointCell3 = new TableCell();
-            PointCell1.Text = (icounter2 + 1).ToString() + "分人数";
+            string[] star = {};
+            //PointCell1.Text = (icounter2 + 1).ToString() + "分人数";
+            PointCell1.ID = "chinese"+ icounter2 + "pic";
             tbr1cn.Cells.Add(PointCell1);
             for (int icounter3 = 0; icounter3 < levelstructureInfoList.Count; icounter3 ++)
             {
@@ -260,7 +264,8 @@ public partial class search_search : System.Web.UI.Page
                 tbc1.Text = prepare1.ToString();
                 tbr1cn.Cells.Add(tbc1);
             }
-            PointCell2.Text = (icounter2 + 1).ToString() + "分人数";
+            //PointCell2.Text = (icounter2 + 1).ToString() + "分人数";
+            PointCell2.ID = "math" + icounter2 +"pic";
             tbr1mt.Cells.Add(PointCell2);
             for (int icounter4 = levelstructureInfoList.Count; icounter4 < 2 * levelstructureInfoList.Count; icounter4 ++)
             {
@@ -269,7 +274,8 @@ public partial class search_search : System.Web.UI.Page
                 tbc2.Text = prepare2.ToString();
                 tbr1mt.Cells.Add(tbc2);
             }
-            PointCell3.Text = (icounter2 + 1).ToString() + "分人数";
+            //PointCell3.Text = (icounter2 + 1).ToString() + "分人数";
+            PointCell3.ID = "english" + icounter2 + "pic";
             tbr1en.Cells.Add(PointCell3);
             for (int icounter5 = 2 * levelstructureInfoList.Count; icounter5 < 3 * levelstructureInfoList.Count; icounter5 ++)
             {
@@ -284,6 +290,32 @@ public partial class search_search : System.Web.UI.Page
         }
         
         
+    }
+
+    void drawLvs() 
+    {
+        
+        LevelStructure ls = new LevelStructure();
+        this.llsi = ls.getLevelStructureInfoAll();
+        Table llstb = (Table)this.FindControl("lvsTable");
+        while (llstb.Rows.Count > 1)
+        {
+            llstb.Rows.RemoveAt(1);
+        }
+        for (int ic0 = 0; ic0 < llsi.Count; ic0++)
+        {
+            TableRow tbr = new TableRow();
+            string[] contents = llsi[ic0].toStringToShow();
+
+            for (int ic1 = 0; ic1 < 7; ic1++)
+            {
+                TableCell tbc = new TableCell();
+                tbc.Text = (contents[ic1] == "empty" ? "" : contents[ic1]);
+                tbc.ID = ic0.ToString() + ":" + ic1.ToString();
+                tbr.Cells.Add(tbc);
+            }
+            llstb.Rows.Add(tbr);
+        }
     }
 
     void drawCharts()
@@ -310,7 +342,6 @@ public partial class search_search : System.Web.UI.Page
             chartThePositionBelongsTo.Add(chartNumForSingleSubject-1);
             
         }
-
         for (int isubject = 1; isubject < 4; isubject++)
         {
             List<Chart> chartList = new List<Chart>();
@@ -322,6 +353,7 @@ public partial class search_search : System.Web.UI.Page
                 ChartArea ca = new ChartArea();
                 
                 newchart.Titles.Add(titleForSubject[isubject] + ":" + Items[ichart]);
+                newchart.Titles[0].Font = new System.Drawing.Font("微软雅黑", 16);
                 ca.AxisX.Title = "星期";
                 ca.AxisX.TitleFont = new System.Drawing.Font("微软雅黑", 12);
                 ca.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
@@ -415,6 +447,9 @@ public partial class search_search : System.Web.UI.Page
             sss.LegendText = levelstructureInfoList[icounter4].Subiterm;
             sss.IsValueShownAsLabel = true;//显示坐标
             sss.Font = new System.Drawing.Font("微软雅黑", 12);
+            sss.BorderWidth = 6;
+            sss.MarkerSize = 12;
+            sss.MarkerStyle = System.Web.UI.DataVisualization.Charting.MarkerStyle.Circle;
             currentChart.Series.Add(sss);
         }
     }

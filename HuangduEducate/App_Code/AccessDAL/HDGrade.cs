@@ -26,6 +26,7 @@ namespace AccessDAL
         private const string SQL_UPDATE_MATH = "UPDATE grade SET math = @math WHERE ID = @ID and week = @week ";
         private const string SQL_UPDATE_ENGLISH = "UPDATE grade SET english = @english WHERE ID = @ID and week = @week ";
         private const string SQL_UPDATE_ALL = "update grade SET chinese = @chinese , math = @math , english = @english where ID = @ID and week = @week;";
+        private const string SQL_DELETE_ALL = "DELETE * FROM grade";
 
         static public string evil = "000000000000";
 
@@ -218,6 +219,20 @@ namespace AccessDAL
                 
             }
             olecon.Close();
+            return result;
+        }
+
+        public int ClearAllData() 
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbCommand oleCmd = new OleDbCommand(SQL_DELETE_ALL, connection);
+            int result = oleCmd.ExecuteNonQuery();
+            if(connection != null)
+            {
+                connection.Close();
+            }
             return result;
         }
     }

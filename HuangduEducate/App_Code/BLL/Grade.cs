@@ -86,6 +86,11 @@ namespace BLL
 
         }
 
-        
+        public int ClearAllData()
+        {
+            HDGrade hg = new HDGrade();
+            int result = hg.ClearAllData();
+            return result;
+        }
     }
 }

@@ -36,6 +36,19 @@ namespace BLL
             return QYDCompare.stringCompare(x.ID, y.ID);
         }
 
+        public void deleteOutOfDateStudent()
+        {
+            HDStudent hs = new HDStudent();
+            hs.deleteOutOfDateStudent();
+        }
+
+        public int changeStudentInfo(StudentInfo si)
+        {
+            HDStudent hs = new HDStudent();
+            int result = hs.changeStudentInfo(si);
+            return result;
+        }
+
     }
 
 }

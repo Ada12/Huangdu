@@ -19,7 +19,11 @@ namespace AccessDAL
         private const string SQL_SELECT_CONTENT = "select studentID, name, class_num from student where studentID = @studentID ";
         private const string SQL_SELECT_CONTENT_BY_CLASS = "select studentID, name, class_num from student where class_num = @class_num;";
         private const string SQL_INSERT_CONTENT_BY_ID = "insert into student(studentID, name, class_num ) values (@studentID, @name, @class_num);";
-        
+        private const string SQL_DELETE_STUDENTS = "DELETE FROM student WHERE class_num = @class_num";
+        private const string SQL_UPDATE_CONTENT = "UPDATE [student] SET [class_num] = @class_num WHERE [studentID] = @studentID;";
+
+
+
         public static int InsertData(string sql, OleDbParameter[] cmdParms,OleDbConnection connection)
         {
             int result = -1;
@@ -79,7 +83,6 @@ namespace AccessDAL
             return studentList;
         }
 
-
         public int addStudent(StudentInfo si)
         {
             int res = -1;
@@ -95,8 +98,49 @@ namespace AccessDAL
             oledbc.Close();
             return res;
         }
-        
 
+        public void deleteOutOfDateStudent()
+        {
+            DateTime now = DateTime.Now;
+            int enterGrade = now.Year - 2006;//应为2005
+            HDClass hc = new HDClass();
+            int count = hc.GetClassNum();
+            for (int i = 1; i < count + 1; i++)
+            {
+                int classNum = Int32.Parse(enterGrade.ToString() + i.ToString());
+                DBConnection dbconn = new DBConnection();
+                OleDbConnection connection = dbconn.getConnection();
+                connection.Open();
+                OleDbCommand oleCmd = new OleDbCommand(SQL_DELETE_STUDENTS, connection);
+                OleDbParameter param = new OleDbParameter(PARM_CLASS_NUM, OleDbType.VarChar);
+                param.Value = classNum;
+                oleCmd.Parameters.Add(param);
+                int result = oleCmd.ExecuteNonQuery();
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public int changeStudentInfo(StudentInfo si)
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbParameter[] parms = new OleDbParameter[] { new OleDbParameter(PARM_ID, OleDbType.VarChar), new OleDbParameter(PARM_CLASS_NUM, OleDbType.VarChar) };
+            parms[0].Value = si.ID;
+            parms[1].Value = si.ClassNum;
+            OleDbCommand oleCmd = new OleDbCommand(SQL_UPDATE_CONTENT, connection);
+            oleCmd.Parameters.AddWithValue("@class_num", parms[1].Value);
+            oleCmd.Parameters.AddWithValue("@studentID", parms[0].Value);
+            int result = oleCmd.ExecuteNonQuery();
+            if(connection != null)
+            {
+                connection.Close();
+            }
+            return result;
+        }
         
     }
 }

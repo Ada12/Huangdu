@@ -41,5 +41,19 @@ namespace BLL
             int result = hc.UpdateInfo(classID, password);
             return result;
         }
+
+        public int DeleteOutOfDateClass()
+        {
+            HDClass hc = new HDClass();
+            int result = hc.DeleteOutOfDateClass();
+            return result;
+        }
+
+        public int GetClassNum()
+        {
+            HDClass hc = new HDClass();
+            int count = hc.GetClassNum();
+            return count;
+        }
     }
 }
