@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Model;
 using BLL;
+using System.Data;
 
 public partial class Account_AdminManagement : System.Web.UI.Page
 {
@@ -35,6 +36,40 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         name_TB.Text = "";
         class_DD.SelectedValue = "1";
         entertime_DD.SelectedValue = "2015";
+    }
+
+    protected void addBatchStudentBtn_Click(object sender, EventArgs e)
+    {
+        File f = new File();
+        if (FuloadExcelFile.FileName == "")
+            {
+                return;
+            }
+            else
+            {
+                string fileExt = System.IO.Path.GetExtension(FuloadExcelFile.FileName);
+                if (fileExt != ".xlsx")//必须是EXCEL文件
+                {
+                    return;
+                }
+                else
+                {
+                    FuloadExcelFile.SaveAs(Server.MapPath("~/") + FuloadExcelFile.FileName);
+                    //string filepath = FuloadExcelFile.PostedFile.FileName;//文件路径，FuloadExcelFile为上传文件的控件
+                    string filepath = Server.MapPath("~/") + FuloadExcelFile.FileName;
+                    DataTable dt = new DataTable();
+                    dt = f.GetDataFromExcelWithAppointSheetName(filepath);
+                    if (f.insertData(dt))//导入数据库
+                    {
+                        Response.Write("成功");
+                    }
+                    else
+                    {
+                        Response.Write("失败！");
+                    }
+ 
+                }
+            }
     }
 
     protected void changeStudent_Click(object sender, EventArgs e)

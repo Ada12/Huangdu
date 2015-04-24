@@ -57,6 +57,10 @@
                 <br />
                 <br />
                 <asp:Button ID="addStudentBtn" runat="server" Text="提交" OnClientClick="return confirm('确认添加?');"  OnClick="addStudent_Click" />
+                <br />
+                <br />
+                <asp:FileUpload ID="FuloadExcelFile" runat="server" />
+                <asp:Button ID="addBatchStudentBtn" runat="server" Text="导入学生" OnClick="addBatchStudentBtn_Click" />
             </div>
             <br />
             <br />
