@@ -134,7 +134,26 @@ namespace AccessDAL
                 RankInfo ri = new RankInfo(classNum, w, onePoint, twoPoint, threePoint, fourPoint, fivePoint);
                 lri.Add(ri);
             }
-            int len = lri[1].One.Count();
+            if (lri.Count() == 0)
+            {
+                    int[] t1 = new int[3 * count];
+                    int[] t2 = new int[3 * count];
+                    int[] t3 = new int[3 * count];
+                    int[] t4 = new int[3 * count];
+                    int[] t5 = new int[3 * count];
+
+                    for (int tt = 0; tt < 3 * count; tt++)
+                    {
+                        t1[tt] = 0;
+                        t2[tt] = 0;
+                        t3[tt] = 0;
+                        t4[tt] = 0;
+                        t5[tt] = 0;
+                    }
+                    RankInfo testAvg = new RankInfo(classNum, 1, t1, t2, t3, t4, t5);
+                    return testAvg;
+            }
+            int len = lri[0].One.Count();
             int[] oneAvg = new int[len];
             int[] twoAvg = new int[len];
             int[] threeAvg = new int[len];

@@ -14,7 +14,7 @@
         <asp:Button ID="logoffBtn" CssClass="button button-rounded button-flat-primary login-btn btn-position" style = "margin-left: 400px;" Text="登出" runat="server"
          onclick="logoffBtn_Click" />
             <div>
-                <asp:Label Text="添加学生" ID="addStudent" runat="server" />
+                <h2><asp:Label Text="添加学生" ID="addStudent" runat="server" /></h2>
                 <hr />
                 &nbsp; &nbsp;&nbsp; &nbsp;学号：<asp:TextBox ID="studentID_TB" runat="server"></asp:TextBox>
                 <br />
@@ -59,13 +59,19 @@
                 <asp:Button ID="addStudentBtn" runat="server" Text="提交" OnClientClick="return confirm('确认添加?');"  OnClick="addStudent_Click" />
                 <br />
                 <br />
+                <h5>批量导入：</h5>
+                <asp:Button ID="downloadFileBtn" runat="server" Text="下载模板" OnClientClick="return confirm('请依照模板依次填写数据，其中studentID为学生学号，name为学生姓名，class_num为班级编号，如2015年入学的1班的班级标号为151，依次类推。');"  OnClick="downloadFile_Click"/>
+                <br />
+                <br />
                 <asp:FileUpload ID="FuloadExcelFile" runat="server" />
+                <br />
+                <br />
                 <asp:Button ID="addBatchStudentBtn" runat="server" Text="导入学生" OnClick="addBatchStudentBtn_Click" />
             </div>
             <br />
             <br />
             <div>
-            <asp:Label Text="修改学生" ID="changeStudent" runat="server" />
+            <h2><asp:Label Text="修改学生" ID="changeStudent" runat="server" /></h2>
             <hr />
             &nbsp; &nbsp;&nbsp; &nbsp;学号：<asp:TextBox ID="changeStudentID_TB" runat="server"></asp:TextBox>
             <br />
@@ -101,7 +107,18 @@
             <br />
             <br />
             <div>
-                <asp:Label Text="添加班级" ID="addClass" runat="server"/>
+            <h2><asp:Label Text="删除学生" ID="deleteStudent" runat="server"/></h2>
+            <hr />
+            学号：<asp:TextBox ID="deleteStudent_TB" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="deleteStudentBtn" runat="server" Text="删除" OnClientClick="return confirm('确认删除?');"  OnClick="deleteStudent_Click" />
+            <br />
+            <br />
+            <br />
+            </div>
+            <div>
+                <h2><asp:Label Text="添加班级" ID="addClass" runat="server"/></h2>
                 <hr />
                 &nbsp; &nbsp;&nbsp; &nbsp;班级：
                 <asp:DropDownList ID="addClassClass_DD" runat="server">
@@ -146,7 +163,7 @@
             <br />
             <br />
             <div>
-               <asp:Label Text="修改班级密码" ID="changePassword" runat="server" />
+               <h2><asp:Label Text="修改班级密码" ID="changePassword" runat="server" /></h2>
                 <hr />
                 班级账号：
                 <asp:TextBox ID="changePasswordAccountNum_TB" runat="server"/>
@@ -170,7 +187,7 @@
             <br />
             <br />
             <div>
-               <asp:Label Text="修改管理员密码" ID="Label2" runat="server" />
+               <h2><asp:Label Text="修改管理员密码" ID="Label2" runat="server" /></h2>
                 <hr />
                &nbsp; &nbsp;原密码：
                 <asp:TextBox ID="oldAdminPassword_TB" runat="server" TextMode="Password" />
@@ -190,21 +207,21 @@
             <br />
             <br />
             <div>
-               <asp:Label Text="修改条目" ID="changeCatalog" runat="server" />
+               <h2><asp:Label Text="修改评价标准" ID="changeCatalog" runat="server" /></h2>
                <hr />
                <asp:Button ID="changeLevelStructureBtn" runat="server" Text="修改" OnClick="changeLevelStructureBtn_Click" />
             </div>
             <br />
             <br />
             <div>
-               <asp:Label Text="修改年级" ID="Label1" runat="server" />
+               <h2><asp:Label Text="修改年级" ID="Label1" runat="server" /></h2>
                <hr />
                <asp:Button ID="changeGrade" Text="修改" OnClientClick="return confirm('点击修改年级之后，所有年级将上升一级，而所有过期信息将被清空，确认修改?');"  OnClick="changeGrade_Click" runat="server" />
             </div>
             <br />
             <br />
             <div>
-               <asp:Label Text="修改学期" ID="Label3" runat="server" />
+               <h2><asp:Label Text="修改学期" ID="Label3" runat="server" /></h2>
                <hr />
                <asp:Button ID="changeTerm" Text="修改" OnClientClick="return confirm('点击修改学期之后，本学期所有学生成绩情况将会被清空，确认修改学期?');"  OnClick="changeTerm_Click" runat="server" />
             </div>

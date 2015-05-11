@@ -11,7 +11,7 @@ using System.Data;
 /// 
 namespace BLL
 {
-    public class File
+    public class MyFile
     {
         public DataTable GetDataFromExcelWithAppointSheetName(string path)
         {

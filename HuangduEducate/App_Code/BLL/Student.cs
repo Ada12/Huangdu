@@ -49,6 +49,13 @@ namespace BLL
             return result;
         }
 
+        public int deleteStudent(string studentID)
+        {
+            HDStudent hs = new HDStudent();
+            int result = hs.deleteStudent(studentID);
+            return result;
+        }
+
     }
 
 }

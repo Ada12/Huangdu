@@ -7,12 +7,23 @@ using System.Web.UI.WebControls;
 using Model;
 using BLL;
 using System.Data;
+using System.IO;
 
 public partial class Account_AdminManagement : System.Web.UI.Page
 {
+    private string adminID;
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        try
+        {
+            adminID = Session["adminID"].ToString();
+        }
+        catch (Exception exception1)
+        {
+            exception1.ToString();
+            Response.Redirect("AdminLogin.aspx");
+            return;
+        }
     }
 
     protected void addStudent_Click(object sender, EventArgs e)
@@ -38,9 +49,21 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         entertime_DD.SelectedValue = "2015";
     }
 
+    protected void downloadFile_Click(object sender, EventArgs e)
+    {
+        string fileURL = Server.MapPath("~/") + "App_Data/student.xlsx";//文件路径，可用相对路径
+        FileInfo fileInfo = new FileInfo(fileURL);
+        Response.Clear();
+        Response.AddHeader("content-disposition", "attachment;filename=" + Server.UrlEncode(fileInfo.Name.ToString()));//文件名
+        Response.AddHeader("content-length", fileInfo.Length.ToString());//文件大小
+        Response.ContentType = "application/octet-stream";
+        Response.ContentEncoding = System.Text.Encoding.Default;
+        Response.WriteFile(fileURL);
+    }
+
     protected void addBatchStudentBtn_Click(object sender, EventArgs e)
     {
-        File f = new File();
+        MyFile f = new MyFile();
         if (FuloadExcelFile.FileName == "")
             {
                 return;
@@ -61,11 +84,11 @@ public partial class Account_AdminManagement : System.Web.UI.Page
                     dt = f.GetDataFromExcelWithAppointSheetName(filepath);
                     if (f.insertData(dt))//导入数据库
                     {
-                        Response.Write("成功");
+                        System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('导入成功！');</script>");
                     }
                     else
                     {
-                        Response.Write("失败！");
+                        System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('导入失败！');</script>");
                     }
  
                 }
@@ -90,6 +113,21 @@ public partial class Account_AdminManagement : System.Web.UI.Page
         else
         {
             System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('修改成功！学号"+ studentID +"的年级已经更改为"+ gradenum +"年级，班级更改为"+ classnum +"班');</script>");
+        }
+    }
+
+    protected void deleteStudent_Click(object sender, EventArgs e)
+    {
+        Student s = new Student();
+        int result = s.deleteStudent(deleteStudent_TB.Text);
+        if (result == 0)
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('删除失败！');</script>");
+        }
+        else
+        {
+            System.Web.HttpContext.Current.Response.Write("<script language=javascript>alert('学号为"+ deleteStudent_TB.Text +"的学生删除成功！');</script>");
+            deleteStudent_TB.Text = "";
         }
     }
 

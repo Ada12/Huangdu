@@ -21,7 +21,7 @@ namespace AccessDAL
         private const string SQL_INSERT_CONTENT_BY_ID = "insert into student(studentID, name, class_num ) values (@studentID, @name, @class_num);";
         private const string SQL_DELETE_STUDENTS = "DELETE FROM student WHERE class_num = @class_num";
         private const string SQL_UPDATE_CONTENT = "UPDATE [student] SET [class_num] = @class_num WHERE [studentID] = @studentID;";
-
+        private const string SQL_DELETE_STUDENT = "DELETE FROM student WHERE studentID = @studentID";
 
 
         public static int InsertData(string sql, OleDbParameter[] cmdParms,OleDbConnection connection)
@@ -141,6 +141,18 @@ namespace AccessDAL
             }
             return result;
         }
-        
+
+        public int deleteStudent(string studentID)
+        {
+            DBConnection dbconn = new DBConnection();
+            OleDbConnection connection = dbconn.getConnection();
+            connection.Open();
+            OleDbCommand oleCmd = new OleDbCommand(SQL_DELETE_STUDENT, connection);
+            OleDbParameter param = new OleDbParameter(PARM_ID, OleDbType.VarChar);
+            param.Value = studentID;
+            oleCmd.Parameters.Add(param);
+            int result = oleCmd.ExecuteNonQuery();
+            return result;
+        } 
     }
 }
